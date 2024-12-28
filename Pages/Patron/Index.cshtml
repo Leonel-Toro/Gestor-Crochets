@@ -1,0 +1,50 @@
+﻿@page
+@model Gestor.Pages.Patron.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Nuevo Patron</a>
+</p>
+<div class="row">
+    <div class="col-6">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Patron[0].producto)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Patron[0].parte)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Patron[0].punto)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+        @foreach (var item in Model.Patron) {
+                <tr>
+                        <td>@Html.DisplayFor(modelItem => item.producto.Nombre)</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.parte)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.punto)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+        }
+            </tbody>
+        </table>
+    </div>
+</div>

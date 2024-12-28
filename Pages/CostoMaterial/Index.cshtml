@@ -1,0 +1,100 @@
+﻿@page
+@model Gestor.Pages.CostoMaterial.IndexModel
+
+@{
+    ViewData["Title"] = "Costos materiales";
+}
+<div class="">
+    <h1 class="text-uppercase">Costos materiales</h1>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal">
+        Agregar
+    </button>
+    @if (Model.CostoMaterial != null && Model.CostoMaterial.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CostoMaterial[0].Lugar)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CostoMaterial[0].Material)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CostoMaterial[0].Cantidad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CostoMaterial[0].Costo)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CostoMaterial)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Lugar)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Material)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cantidad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Costo)
+                        </td>
+                        <td>
+                            <a asp-page="./Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a asp-page="./Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h3 class="d-flex justify-content-center">No hay datos disponibles...</h3>
+    }
+</div>
+
+<div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formModalLabel">Agregar Costo de Material</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="NuevoCostoMaterial.Lugar" class="control-label"></label>
+                        <input asp-for="NuevoCostoMaterial.Lugar" class="form-control" />
+                        <span asp-validation-for="NuevoCostoMaterial.Lugar" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NuevoCostoMaterial.Material" class="control-label"></label>
+                        <input asp-for="NuevoCostoMaterial.Material" class="form-control" />
+                        <span asp-validation-for="NuevoCostoMaterial.Material" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NuevoCostoMaterial.Cantidad" class="control-label"></label>
+                        <input asp-for="NuevoCostoMaterial.Cantidad" class="form-control" />
+                        <span asp-validation-for="NuevoCostoMaterial.Cantidad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NuevoCostoMaterial.Costo" class="control-label"></label>
+                        <input asp-for="NuevoCostoMaterial.Costo" class="form-control" />
+                        <span asp-validation-for="NuevoCostoMaterial.Costo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
