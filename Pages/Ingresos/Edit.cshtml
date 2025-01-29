@@ -19,10 +19,20 @@
                 <input asp-for="Ingresos.valor_venta" class="form-control" />
                 <span asp-validation-for="Ingresos.valor_venta" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Ingresos.forma_venta" /> @Html.DisplayNameFor(model => model.Ingresos.forma_venta)
-                </label>
+            <div class="form-group">
+                <label asp-for="Ingresos.forma_venta" class="control-label"></label>
+                <input asp-for="Ingresos.forma_venta" class="form-control" />
+                <span asp-validation-for="Ingresos.forma_venta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ingresos.valor_hora" class="control-label"></label>
+                <input asp-for="Ingresos.valor_hora" class="form-control" />
+                <span asp-validation-for="Ingresos.valor_hora" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ingresos.valor_entrega" class="control-label"></label>
+                <input asp-for="Ingresos.valor_entrega" class="form-control" />
+                <span asp-validation-for="Ingresos.valor_entrega" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

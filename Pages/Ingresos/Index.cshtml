@@ -19,6 +19,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Ingresos[0].forma_venta)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ingresos[0].valor_hora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ingresos[0].valor_entrega)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -30,6 +36,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.forma_venta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.valor_hora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.valor_entrega)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

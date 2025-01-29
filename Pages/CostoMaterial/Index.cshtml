@@ -1,5 +1,6 @@
 ﻿@page
 @model Gestor.Pages.CostoMaterial.IndexModel
+@Html.AntiForgeryToken()
 
 @{
     ViewData["Title"] = "Costos materiales";
@@ -32,7 +33,7 @@
             <tbody>
                 @foreach (var item in Model.CostoMaterial)
                 {
-                    <tr>
+                    <tr id="costo-@item.Id">
                         <td>
                             @Html.DisplayFor(modelItem => item.Lugar)
                         </td>
@@ -47,7 +48,9 @@
                         </td>
                         <td>
                             <a asp-page="./Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a asp-page="./Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can"></i></a>
+                            <div class="delete-material" data-id="@item.Id" style="cursor:pointer">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </div>
                         </td>
                     </tr>
                 }
@@ -98,3 +101,34 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).on('click', '.delete-material', function () {
+        const idMaterial = $(this).data('id');
+        const token = $('input[name="__RequestVerificationToken"]').val();
+
+        $.ajax({
+            url: '/CostoMaterial/BorrarCostoMaterial/EliminarCostoMaterial',
+            type: "POST",
+            headers: {
+                "RequestVerificationToken": token
+            },
+            contentType: "application/json",
+            data: JSON.stringify({ idMaterial: idMaterial }),
+            success: function (response) {
+                if(response){
+                    alert(response.message);
+                    $(`#costo-${idMaterial}`).remove();
+                }else{
+                    alert(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error details:", xhr.responseText);
+                alert("Ocurrió un error al intentar eliminar el material.");
+            }
+        });
+    });
+</script>

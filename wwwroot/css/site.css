@@ -21,7 +21,12 @@ body {
     margin-bottom: 60px;
     font-size: 15px;
     font-family: "Roboto", serif;
-    font-weight:300;
+    font-weight: 300;
+    background-color: #f8f3f2;
+}
+
+.pastel-white-text {
+    color: #f8f3f2;
 }
 
 .light {
@@ -53,4 +58,41 @@ nav .navbar-nav .nav-item a {
     font-weight:600;
     text-transform:uppercase;
     color:white !important;
+}
+
+.title-primary {
+    font-family: 'PP Gatwick';
+    font-weight: 700;   
+}
+
+main .card-title h1.title-primary {
+    color: #4c200a;
+}
+
+main .card-title h3.title-primary {
+    color:#f9b9e0;
+}
+
+main .lead-view {
+    padding: 2rem;
+}
+
+main .card-title .main-logo {
+    width: 100%;
+}
+
+main .card-title .main-logo .logo-img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+}
+
+.examples-img{
+    width:350px;
+    cursor:pointer;
+    margin:10px;
+}
+
+.world-of-images{
+    max-width:1300px;
 }

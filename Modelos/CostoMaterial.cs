@@ -21,5 +21,7 @@ namespace Gestor.Modelos
         [Required(ErrorMessage = "La marca es obligatoria.")]
         public string Marca { get; set; }
 
+        public Boolean eliminado { get; set; }
+
     }
 }

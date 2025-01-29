@@ -48,6 +48,9 @@ namespace Gestor.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("eliminado")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.ToTable("CostoMaterial");
@@ -61,8 +64,15 @@ namespace Gestor.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("forma_venta")
-                        .HasColumnType("boolean");
+                    b.Property<string>("forma_venta")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("valor_entrega")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("valor_hora")
+                        .HasColumnType("integer");
 
                     b.Property<int>("valor_venta")
                         .HasColumnType("integer");
@@ -103,6 +113,9 @@ namespace Gestor.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("eliminado")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("parte")
                         .IsRequired()
                         .HasColumnType("text");
@@ -113,6 +126,12 @@ namespace Gestor.Migrations
                     b.Property<string>("punto")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("repeticiones")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("vuelta")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -136,12 +155,29 @@ namespace Gestor.Migrations
                     b.Property<int>("Tamanio")
                         .HasColumnType("integer");
 
-                    b.Property<int>("precio")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.ToTable("Producto");
+                });
+
+            modelBuilder.Entity("Gestor.Modelos.Tipo_punto", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("descripcion")
+                        .HasColumnType("text");
+
+                    b.Property<string>("nombre")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Tipo_punto");
                 });
 
             modelBuilder.Entity("Gestor.Modelos.MaterialProducto", b =>

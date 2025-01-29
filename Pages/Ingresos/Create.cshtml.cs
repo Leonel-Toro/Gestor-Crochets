@@ -21,13 +21,22 @@ namespace Gestor.Pages.Ingresos
 
         public IActionResult OnGet()
         {
+            FormaVenta = new List<string>
+            {
+                Gestor.Modelos.FormaVenta.VENTA_DIRECTA,
+                Gestor.Modelos.FormaVenta.VENTA_FACEBOOK,
+                Gestor.Modelos.FormaVenta.VENTA_INSTAGRAM,
+                Gestor.Modelos.FormaVenta.VENTA_OTRO
+            };
+
             return Page();
         }
 
         [BindProperty]
         public Gestor.Modelos.Ingresos Ingresos { get; set; } = default!;
 
-        // For more information, see https://aka.ms/RazorPagesCRUD.
+        public List<string> FormaVenta { get; set; } = default!;
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)

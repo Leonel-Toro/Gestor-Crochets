@@ -19,6 +19,7 @@ namespace Gestor.Data
         public DbSet<Gestor.Modelos.Patron> Patron { get; set; } = default!;
         public DbSet<Gestor.Modelos.Ingresos> Ingresos { get; set; } = default!;
         public DbSet<Gestor.Modelos.MaterialProducto> MaterialProducto { get; set; } = default!;
+        public DbSet<Gestor.Modelos.Tipo_punto> Tipo_punto { get; set; } = default!;
 
     }
 }

@@ -1,0 +1,114 @@
+﻿@page "{idProducto:int}"
+@model Gestor.Pages.Patron.NuevoPatronModel
+@Html.AntiForgeryToken()
+
+@{
+    var producto = Model.Producto;
+}
+
+<div class="">
+    <h1>@producto.Nombre</h1>
+    <div>
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for-idProducto="@producto.Id"/>
+            <div class="form-group">
+                <label asp-for="NuevoPatron.vuelta" class="control-label">Vuelta</label>
+                <input asp-for="NuevoPatron.vuelta" class="form-control" />
+                <span asp-validation-for="NuevoPatron.vuelta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NuevoPatron.parte" class="control-label">Parte</label>
+                <input asp-for="NuevoPatron.parte" class="form-control" />
+                <span asp-validation-for="NuevoPatron.parte" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NuevoPatron.punto" class="control-label">Tipo de punto</label>
+                <select asp-for="NuevoPatron.punto" class="form-control">
+                    @foreach (var tp in Model.Tipo_punto)
+					{
+                        <option value="@tp.id">@tp.nombre @tp.descripcion</option>
+					}
+                </select>
+                <span asp-validation-for="NuevoPatron.punto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NuevoPatron.repeticiones" class="control-label"></label>
+                <input asp-for="NuevoPatron.repeticiones" class="form-control" />
+                <span asp-validation-for="NuevoPatron.repeticiones" class="text-danger"></span>
+            </div>
+            <input type="submit" class="btn btn-primary" />
+        </form>
+    </div>
+</div>
+
+@if (Model.Patron != null && Model.Patron.Any())
+{
+    foreach (var patron in Model.Patron)
+    {
+        <div id="patron-@patron.Id">
+            <label>@patron.parte</label>
+            @foreach(var tp in Model.Tipo_punto){
+                @if(tp.id.ToString().Equals(patron.punto)){
+                    <label>@tp.nombre</label>
+                }
+            }
+            <label>@patron.repeticiones Repeticiones</label>
+            <div class="d-flex" id="patron-@patron.Id">
+                <div class="edit-patron" data-bs-toggle="modal" data-bs-target="#formModal" style="cursor:pointer">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </div>
+                <div class="delete-patron" data-id="@patron.Id" style="cursor:pointer">
+                    <i class="fa-solid fa-trash-can"></i>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formModalLabel">Editar Patron</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+            <div class="modal-body">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).on('click', '.delete-patron', function () {
+        const idPatron = $(this).data('id');
+        const token = $('input[name="__RequestVerificationToken"]').val();
+
+        $.ajax({
+            url: '/Patron/BorrarPatron/EliminarPatron',
+            type: "POST",
+            headers: {
+                "RequestVerificationToken": token
+            },
+            contentType: "application/json",
+            data: JSON.stringify({ idPatron: idPatron }),
+            success: function (response) {
+                if(response){
+                    alert(response.message);
+                    $(`#patron-${idPatron}`).remove();
+                }else{     
+                    alert(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error details:", xhr.responseText);
+                alert("Ocurrió un error al intentar eliminar el patrón.");
+            }
+        });
+    });
+</script>

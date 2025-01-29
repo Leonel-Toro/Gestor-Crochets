@@ -18,12 +18,11 @@ namespace Gestor.Pages.Patron
         {
             _context = context;
         }
-
-        public IList<Gestor.Modelos.Patron> Patron { get;set; } = default!;
+        public IList<Gestor.Modelos.Producto> Producto { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
-            Patron = await _context.Patron.ToListAsync();
+            Producto = await _context.Producto.ToListAsync();
         }
     }
 }
