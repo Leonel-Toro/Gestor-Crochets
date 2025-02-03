@@ -21,6 +21,7 @@ namespace Gestor.Pages
 
         public async Task OnGetAsync()
         {
+            ViewData["Header"] = "Principal";
         }
     }
 }

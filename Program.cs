@@ -26,5 +26,10 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/MainView");
+    return Task.CompletedTask;
+});
 
 app.Run();

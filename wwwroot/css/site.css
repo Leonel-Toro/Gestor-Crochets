@@ -78,7 +78,7 @@ nav.navbar.top .navbar-nav .nav-item::before {
     left: 0;
     width: 100%;
     height: 70%;
-    background: linear-gradient(to top, transparent, #fbd6ec, transparent), linear-gradient(to bottom, transparent,#fbd6ec, transparent);
+    background: linear-gradient(to top, transparent, #ffcaea, transparent), linear-gradient(to bottom, transparent,#ffcaea, transparent);
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
     transform: translateY(-50%);
@@ -94,6 +94,7 @@ nav.navbar.top .navbar-nav .nav-item {
     position: relative;
     cursor: pointer;
     transition: opacity 0.5s ease-in-out;
+    padding: 1.5rem;
 }
 
 nav.navbar.top .navbar-nav .nav-item a{
@@ -113,6 +114,13 @@ nav.navbar.top .navbar-nav .nav-item::after {
 
 nav.navbar.top .navbar-nav .nav-item:last-child::after{
     display:none;
+}
+nav.navbar .navbar-nav .option {
+    transition: .5s ease-in-out;
+}
+
+nav.navbar .navbar-nav .option:hover {
+    background: #ffcaea;
 }
 
 .title-primary {

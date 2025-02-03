@@ -42,20 +42,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script>
-        $(document).ready(function () {
-            $('.dropdown-toggle').click(function (e) {
-                var dropdownMenu = $(this).next('.dropdown-menu');
-                dropdownMenu.slideToggle(300);
-            });
-
-            $(document).click(function (e) {
-                if (!$(e.target).closest('.nav-item.dropdown').length) {
-                    $('.dropdown-menu').slideUp(300);
-                }
-            });
-        });
-    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

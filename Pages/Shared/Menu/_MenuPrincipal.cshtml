@@ -1,16 +1,17 @@
-﻿@{ViewData["Header"] = "Principal";}
-
-<header>
+﻿<header>
     <nav class="navbar d-flex ">
         <div class="container-fluid d-flex p-0">
             <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item">
+                <li class="nav-item option">
                     <a class="nav-link text-dark text-center" asp-page="/Ingresos/index">Ingresos</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item option">
                     <a class="nav-link text-dark text-center" asp-page="/CostoMaterial/index">Costos</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item option">
+                    <a class="nav-link text-dark text-center" asp-page="/Producto/index">Productos</a>
+                </li>
+                <li class="nav-item option">
                     <a class="nav-link text-dark text-center" asp-page="/Patron/index">Patrones</a>
                 </li>
             </ul>
