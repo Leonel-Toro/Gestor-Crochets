@@ -18,27 +18,15 @@
     <link href="https://fonts.cdnfonts.com/css/pp-gatwick?styles=137381,137380" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <nav class="navbar d-flex ">
-            <div class="container-fluid d-flex p-0">                
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark text-center" asp-page="/Ingresos/index">Ingresos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark text-center" asp-page="/CostoMaterial/index">Costos</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link text-dark text-center dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Productos</a>
-                        <ul class="dropdown-menu slide" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" asp-page="/Producto/index">Productos</a></li>
-                            <li><a class="dropdown-item" asp-page="/Patron/index">Patron</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+    @if (ViewData["Header"] as string == "Principal")
+    {
+        <partial name="Shared/Menu/_MenuPrincipal" />
+    }
+    else
+    {
+        <partial name="Shared/Menu/_MenuSecundario" />
+
+    }
     <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
