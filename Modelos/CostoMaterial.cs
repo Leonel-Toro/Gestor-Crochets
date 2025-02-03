@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using NuGet.Packaging.Signing;
 
 namespace Gestor.Modelos
 {
@@ -20,8 +21,9 @@ namespace Gestor.Modelos
 
         [Required(ErrorMessage = "La marca es obligatoria.")]
         public string Marca { get; set; }
-
         public Boolean eliminado { get; set; }
+        public DateTime fechaCreacion { get; set; }
+        public DateTime fechaModificacion { get; set; }
 
     }
 }

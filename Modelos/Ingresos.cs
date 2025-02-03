@@ -10,5 +10,10 @@ namespace Gestor.Modelos
         public String forma_venta { get; set; }
         public int valor_hora { get; set; }
         public int valor_entrega { get; set; }
+        public Producto productoVendido { get; set; }
+        public Boolean borrado { get; set; }
+        public DateTime fechaCreacion { get; set; }
+        public DateTime fechaModificacion { get; set; }
+
     }
 }

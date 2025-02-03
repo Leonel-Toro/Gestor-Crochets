@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata;
+using NuGet.Packaging.Signing;
 
 namespace Gestor.Modelos
 {
@@ -9,6 +11,7 @@ namespace Gestor.Modelos
 
         [Display(Name = "Tamaño")]
         public int Tamanio { get; set; }
-
+        public DateTime fechaCreacion { get; set; }
+        public DateTime fechaModificacion { get; set; }
     }
 }

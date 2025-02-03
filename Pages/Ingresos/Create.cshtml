@@ -13,12 +13,13 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label class="control-label">Valor de la venta</label>
-                <input asp-for="Ingresos.valor_venta" min="0" value="0" class="form-control" />
+                <input asp-for="Ingresos.valor_venta" min="0" value="0" class="input-style" />
                 <span asp-validation-for="Ingresos.valor_venta" class="text-danger"></span>
+                <span class="coin-type">CLP</span>
             </div>
             <div class="form-group">
                 <label class="control-label">Forma de la Venta</label>
-                <select asp-for="Ingresos.forma_venta" class="form-control">
+                <select asp-for="Ingresos.forma_venta" class="select-style">
                     @foreach(var forma in Model.FormaVenta){
                         <option value="@forma">@forma</option>
                     }
@@ -27,13 +28,15 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Valor de Hora</label>
-                <input asp-for="Ingresos.valor_hora" min="0" value="0" class="form-control" />
+                <input asp-for="Ingresos.valor_hora" min="0" value="0" class="input-style" />
                 <span asp-validation-for="Ingresos.valor_hora" class="text-danger"></span>
+                <span class="coin-type">CLP</span>
             </div>
             <div class="form-group">
                 <label class="control-label">Valor de Entrega</label>
-                <input asp-for="Ingresos.valor_entrega" min="0" value="0" class="form-control" />
+                <input asp-for="Ingresos.valor_entrega" min="0" value="0" class="input-style" />
                 <span asp-validation-for="Ingresos.valor_entrega" class="text-danger"></span>
+                <span class="coin-type">CLP</span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

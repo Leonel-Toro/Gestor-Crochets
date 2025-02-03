@@ -28,8 +28,12 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark text-center" asp-page="/CostoMaterial/index">Costos</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark text-center" asp-page="/Patron/index">Patrones</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-dark text-center dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Productos</a>
+                        <ul class="dropdown-menu slide" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" asp-page="/Producto/index">Productos</a></li>
+                            <li><a class="dropdown-item" asp-page="/Patron/index">Patron</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -50,7 +54,20 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-toggle').click(function (e) {
+                var dropdownMenu = $(this).next('.dropdown-menu');
+                dropdownMenu.slideToggle(300);
+            });
 
+            $(document).click(function (e) {
+                if (!$(e.target).closest('.nav-item.dropdown').length) {
+                    $('.dropdown-menu').slideUp(300);
+                }
+            });
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

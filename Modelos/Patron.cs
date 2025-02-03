@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using NuGet.Packaging.Signing;
 
 namespace Gestor.Modelos
 {
@@ -17,6 +18,7 @@ namespace Gestor.Modelos
         public Boolean eliminado { get; set; }
 
         public int vuelta { get; set; }
-
+        public DateTime fechaCreacion { get; set; }
+        public DateTime fechaModificacion { get; set; }
     }
 }

@@ -31,11 +31,6 @@ namespace Gestor.Pages.Producto
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
             if (NuevoProducto == null || string.IsNullOrEmpty(NuevoProducto.Nombre)
                 || NuevoProducto.Tamanio <= 0)
             {

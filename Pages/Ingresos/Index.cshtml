@@ -2,53 +2,95 @@
 @model Gestor.Pages.Ingresos.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Ingresos";
 }
 
-<h1>Index</h1>
+<div class="primary-content">
+    <div class="title-box">
+        <label class="title-primary text-uppercase">Ingresos</label>
+        @if (Model.Ingresos == null || !Model.Ingresos.Any())
+        {
+            <p>
+                <a asp-page="Create">Definir</a>
+            </p>
+        }
+        else
+        {
+            <p>
+                <a asp-page="Edit">Editar</a>
+            </p>
+        }
+    </div>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Ingresos[0].valor_venta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ingresos[0].forma_venta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ingresos[0].valor_hora)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ingresos[0].valor_entrega)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Ingresos) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.valor_venta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.forma_venta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.valor_hora)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.valor_entrega)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="ingresos-box row">
+        <div class="col-12 row">
+            <div class="col-2">
+                <label class="text-start">
+                    Valor Venta :
+                </label>
+            </div>
+            <div class="col-4">
+                @if (Model.Ingresos == null || !Model.Ingresos.Any())
+                {
+                    <label>0</label>
+                }
+                else
+                {
+                    <label></label>
+                }
+            </div>
+        </div>
+        <div class="col-12 row">
+            <div class="col-2">
+                <label class="text-start">
+                    Forma :
+                </label>
+            </div>
+            <div class="col-4">
+                @if (Model.Ingresos == null || !Model.Ingresos.Any())
+                {
+                    <label>Por definir</label>
+                }
+                else
+                {
+                    <label></label>
+                }
+            </div>
+        </div>
+        <div class="col-12 row">
+            <div class="col-2">
+                <label class="text-start">
+                    Valor Hora :
+                </label>
+            </div>
+            <div class="col-4">
+                @if (Model.Ingresos == null || !Model.Ingresos.Any())
+                {
+                    <label>0</label>
+                }
+                else
+                {
+                    <label></label>
+                }
+            </div>
+        </div>
+        <div class="col-12 row">
+            <div class="col-2">
+                <label class="text-start">
+                    Valor Entrega :
+                </label>
+            </div>
+            <div class="col-4">
+                @if (Model.Ingresos == null || !Model.Ingresos.Any())
+                {
+                    <label>0</label>
+                }
+                else
+                {
+                    <label></label>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

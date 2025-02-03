@@ -50,7 +50,7 @@ nav.navbar {
 }
 
 nav .navbar-nav .nav-item{
-    padding:1.5rem;
+    padding:1.5rem 0;
     border-bottom: 1px solid white;
 }
 
@@ -95,4 +95,36 @@ main .card-title .main-logo .logo-img {
 
 .world-of-images{
     max-width:1300px;
+}
+
+.input-style {
+    border: 0;
+    border-bottom: 1px solid pink;
+    background: transparent;
+    text-align: end;
+    padding-right: 40px;
+    font-size: 18px;
+}
+
+.dropdown-toggle::after{
+    display:none !important;
+}
+
+.navbar-nav .dropdown-menu{
+    position:relative;
+}
+
+.dropdown-menu {
+    background-color: transparent;
+    text-align: center;
+    border: 0;
+    font-size: 15px;
+}
+
+.dropdown-item {
+    transition: 0.5s ease-in-out;
+}
+
+.dropdown-item:hover {
+    background-color: #fdcfeb;
 }
