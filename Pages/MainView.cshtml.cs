@@ -10,20 +10,17 @@ using Gestor.Modelos;
 
 namespace Gestor.Pages
 {
-    public class IndexModel : PageModel
+    public class MainView : PageModel
     {
         private readonly Gestor.Data.GestorContext _context;
 
-        public IndexModel(Gestor.Data.GestorContext context)
+        public MainView(Gestor.Data.GestorContext context)
         {
             _context = context;
         }
 
-        public IList<Gestor.Modelos.Ingresos> Ingresos { get;set; } = default!;
-
         public async Task OnGetAsync()
         {
-            Ingresos = await _context.Ingresos.ToListAsync();
         }
     }
 }
