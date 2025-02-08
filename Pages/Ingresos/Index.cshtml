@@ -5,92 +5,126 @@
     ViewData["Title"] = "Ingresos";
 }
 
-<div class="primary-content">
+<div class="ingresos-content">
     <div class="title-box">
         <label class="title-primary text-uppercase">Ingresos</label>
-        @if (Model.Ingresos == null || !Model.Ingresos.Any())
-        {
-            <p>
-                <a asp-page="Create">Definir</a>
-            </p>
-        }
-        else
-        {
-            <p>
-                <a asp-page="Edit">Editar</a>
-            </p>
-        }
     </div>
-
-    <div class="ingresos-box row">
-        <div class="col-12 row">
-            <div class="col-2">
-                <label class="text-start">
-                    Valor Venta :
-                </label>
+    <div class="row">
+        <div class="ingresos-variables-box col-xl-6 col-lg-6 col-md-12">
+            <div class="accion-definir text-end">
+                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalCreacion">Nuevo</a>
             </div>
-            <div class="col-4">
-                @if (Model.Ingresos == null || !Model.Ingresos.Any())
-                {
-                    <label>0</label>
-                }
-                else
-                {
-                    <label></label>
-                }
+            <div class="col-12 row">
+                <div class="col-2">
+                    <label class="text-start">
+                        Valor Venta :
+                    </label>
+                </div>
+                <div class="col-4">
+                    @if (Model.Ingresos == null || !Model.Ingresos.Any())
+                    {
+                        <label>0</label>
+                    }
+                    else
+                    {
+                        <label></label>
+                    }
+                </div>
             </div>
-        </div>
-        <div class="col-12 row">
-            <div class="col-2">
-                <label class="text-start">
-                    Forma :
-                </label>
-            </div>
-            <div class="col-4">
-                @if (Model.Ingresos == null || !Model.Ingresos.Any())
-                {
-                    <label>Por definir</label>
-                }
-                else
-                {
-                    <label></label>
-                }
-            </div>
-        </div>
-        <div class="col-12 row">
-            <div class="col-2">
-                <label class="text-start">
-                    Valor Hora :
-                </label>
-            </div>
-            <div class="col-4">
-                @if (Model.Ingresos == null || !Model.Ingresos.Any())
-                {
-                    <label>0</label>
-                }
-                else
-                {
-                    <label></label>
-                }
+            <div class="col-12 row">
+                <div class="col-2">
+                    <label class="text-start">
+                        Forma :
+                    </label>
+                </div>
+                <div class="col-4">
+                    @if (Model.Ingresos == null || !Model.Ingresos.Any())
+                    {
+                        <label>Por definir</label>
+                    }
+                    else
+                    {
+                        <label></label>
+                    }
+                </div>
             </div>
         </div>
-        <div class="col-12 row">
-            <div class="col-2">
-                <label class="text-start">
-                    Valor Entrega :
-                </label>
+        <div class="ingresos-fijos-box col-xl-6 col-lg-6 col-md-12">
+            <div class="accion-editar text-end">
+                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEditar">Editar</a>
             </div>
-            <div class="col-4">
-                @if (Model.Ingresos == null || !Model.Ingresos.Any())
-                {
-                    <label>0</label>
-                }
-                else
-                {
-                    <label></label>
-                }
+            <div class="col-12 row">
+                <div class="col-2">
+                    <label class="text-start">
+                        Valor Hora :
+                    </label>
+                </div>
+                <div class="col-4">
+                    @if (Model.Ingresos == null || !Model.Ingresos.Any())
+                    {
+                        <label>0</label>
+                    }
+                    else
+                    {
+                        <label></label>
+                    }
+                </div>
+            </div>
+            <div class="col-12 row">
+                <div class="col-2">
+                    <label class="text-start">
+                        Valor Entrega :
+                    </label>
+                </div>
+                <div class="col-4">
+                    @if (Model.Ingresos == null || !Model.Ingresos.Any())
+                    {
+                        <label>0</label>
+                    }
+                    else
+                    {
+                        <label></label>
+                    }
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Modal creacion -->
+<div class="modal fade" id="ModalCreacion" tabindex="-1" aria-labelledby="ModalCreacion" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalCreacionLabel">Nuevo Ingreso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal editar -->
+<div class="modal fade" id="ModalEditar" tabindex="-1" aria-labelledby="ModalEditar" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalEditarLabel">Editar Valores</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

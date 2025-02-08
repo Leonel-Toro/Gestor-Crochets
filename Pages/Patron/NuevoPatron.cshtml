@@ -11,7 +11,7 @@
     <div>
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for-idProducto="@producto.Id"/>
+            <input type="hidden" name="idProducto" value="@producto.Id"/>
             <div class="form-group">
                 <label asp-for="NuevoPatron.vuelta" class="control-label">Vuelta</label>
                 <input asp-for="NuevoPatron.vuelta" class="form-control" />
@@ -23,15 +23,23 @@
                 <span asp-validation-for="NuevoPatron.parte" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NuevoPatron.punto" class="control-label">Tipo de punto</label>
-                <select asp-for="NuevoPatron.punto" class="form-control">
+                <div class="text-end">
+                    <button type="button" class="btn btn-primary" onclick="AgregarPunto()">Agregar</button>
+                </div>
+                <label class="control-label">Tipo de punto</label>
+                <select class="form-control" id="select-1" name="idTipoPunto-1">
                     @foreach (var tp in Model.Tipo_punto)
 					{
-                        <option value="@tp.id">@tp.nombre @tp.descripcion</option>
+                        <option value="@tp.id" >@tp.nombre @tp.descripcion</option>
 					}
                 </select>
-                <span asp-validation-for="NuevoPatron.punto" class="text-danger"></span>
+                <span  class="text-danger" id="select-error-1"></span>
+
+                <label class="control-label">Cantidad</label>
+                <input type="number" class="form-control" name="cantidad-1" min="1" value="1" />
+                <span id="error-cantidad-1" class="text-danger"></span>
             </div>
+            <div id="puntos-row"></div>
             <div class="form-group">
                 <label asp-for="NuevoPatron.repeticiones" class="control-label"></label>
                 <input asp-for="NuevoPatron.repeticiones" class="form-control" />
@@ -46,14 +54,20 @@
 {
     foreach (var patron in Model.Patron)
     {
-        <div id="patron-@patron.Id">
-            <label>@patron.parte</label>
-            @foreach(var tp in Model.Tipo_punto){
-                @if(tp.id.ToString().Equals(patron.punto)){
+        <div id="patron-@patron.Id" class="patron-box">
+            <div class="vuelta-info">
+                <label class="patron-vuelta title-text">Vuelta @patron.vuelta</label>
+            </div>
+            <label class="patron-partes">@patron.parte</label>
+            @foreach(var tp in Model.Tipo_punto)
+            {
+                @if(tp.id.ToString().Equals(patron.punto))
+                {
                     <label>@tp.nombre</label>
                 }
             }
-            <label>@patron.repeticiones Repeticiones</label>
+            <label class="patron-cantidad">@patron.cantidad</label>
+            <label class="patron-rep">@patron.repeticiones Repeticiones</label>
             <div class="d-flex" id="patron-@patron.Id">
                 <div class="edit-patron" data-bs-toggle="modal" data-bs-target="#formModal" style="cursor:pointer">
                     <i class="fa-solid fa-pen-to-square"></i>

@@ -4,8 +4,8 @@
   }
 }
 
-.container-fluid {
-padding-right:500px;
+.lead-view.principal {
+    padding-right: 500px;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -205,4 +205,8 @@ main .card-title .main-logo .logo-img {
 
 .dropdown-item:hover {
     background-color: #fdcfeb;
+}
+
+.ingresos-content{
+    margin:2rem 2.5rem;
 }

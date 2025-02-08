@@ -15,8 +15,18 @@ namespace Gestor.Pages.Patron
         {
             _context = context;
         }
+
         [BindProperty]
         public Gestor.Modelos.Patron NuevoPatron { get; set; } = default!;
+
+        [BindProperty]
+        public int idProducto { get; set; }
+
+        [BindProperty]
+        public int IdTipoPunto { get; set; }
+
+        [BindProperty]
+        public int Cantidad { get; set; }
 
         public IList<Gestor.Modelos.Patron> Patron { get; set; } = default!;
 
@@ -44,20 +54,16 @@ namespace Gestor.Pages.Patron
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int idProducto)
+        public async Task<IActionResult> OnPostAsync()
         {
             Producto = await _context.Producto.FirstOrDefaultAsync(p => p.Id == idProducto);
             Tipo_punto = await _context.Tipo_punto.ToListAsync();
 
-            if (NuevoPatron == null || string.IsNullOrEmpty(NuevoPatron.parte) || string.IsNullOrEmpty(NuevoPatron.punto) || NuevoPatron.repeticiones <=0)
-            {
-                ModelState.AddModelError(string.Empty, "Todos los campos son obligatorios y repeticiones debe ser un valor valido.");
-                return Page();
-            }
-
             try
             {
                 NuevoPatron.producto = Producto;
+                NuevoPatron.punto = IdTipoPunto.ToString();
+                NuevoPatron.cantidad = Cantidad;
 
                 _context.Patron.Add(NuevoPatron);
                 await _context.SaveChangesAsync();

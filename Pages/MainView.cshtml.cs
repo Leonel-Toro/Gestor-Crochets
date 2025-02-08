@@ -19,9 +19,12 @@ namespace Gestor.Pages
             _context = context;
         }
 
+        private IList<Gestor.Modelos.Producto> listaProductos { get; set; } = default!;
+
         public async Task OnGetAsync()
         {
             ViewData["Header"] = "Principal";
+            listaProductos = await _context.Producto.ToListAsync();
         }
     }
 }

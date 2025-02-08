@@ -21,9 +21,29 @@ namespace Gestor.Pages.Ingresos
 
         public IList<Gestor.Modelos.Ingresos> Ingresos { get;set; } = default!;
 
+        [BindProperty]
+        public Gestor.Modelos.Ingresos Ingreso { get; set; } = default!;
+
+        public List<string> FormaVenta { get; set; } = default!;
+
         public async Task OnGetAsync()
         {
+            FormaVenta = new List<string>
+            {
+                Gestor.Modelos.FormaVenta.VENTA_DIRECTA,
+                Gestor.Modelos.FormaVenta.VENTA_FACEBOOK,
+                Gestor.Modelos.FormaVenta.VENTA_INSTAGRAM,
+                Gestor.Modelos.FormaVenta.VENTA_OTRO
+            };
             Ingresos = await _context.Ingresos.ToListAsync();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            _context.Ingresos.AddAsync(Ingreso);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("./Index");
         }
     }
 }
