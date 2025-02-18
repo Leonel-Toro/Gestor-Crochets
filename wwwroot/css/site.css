@@ -210,3 +210,12 @@ main .card-title .main-logo .logo-img {
 .ingresos-content{
     margin:2rem 2.5rem;
 }
+.eliminar-punto {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+}
+
+.form-group.row{
+    position:relative;
+}

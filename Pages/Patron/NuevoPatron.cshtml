@@ -10,41 +10,41 @@
     <h1>@producto.Nombre</h1>
     <div>
         <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="idProducto" value="@producto.Id"/>
             <div class="form-group">
-                <label asp-for="NuevoPatron.vuelta" class="control-label">Vuelta</label>
-                <input asp-for="NuevoPatron.vuelta" class="form-control" />
-                <span asp-validation-for="NuevoPatron.vuelta" class="text-danger"></span>
+                <label class="control-label">Vuelta</label>
+                <input name="Vuelta" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="NuevoPatron.parte" class="control-label">Parte</label>
-                <input asp-for="NuevoPatron.parte" class="form-control" />
-                <span asp-validation-for="NuevoPatron.parte" class="text-danger"></span>
+                <label class="control-label">Parte</label>
+                <input name="Parte" class="form-control" />
             </div>
-            <div class="form-group">
-                <div class="text-end">
-                    <button type="button" class="btn btn-primary" onclick="AgregarPunto()">Agregar</button>
-                </div>
-                <label class="control-label">Tipo de punto</label>
-                <select class="form-control" id="select-1" name="idTipoPunto-1">
-                    @foreach (var tp in Model.Tipo_punto)
-					{
-                        <option value="@tp.id" >@tp.nombre @tp.descripcion</option>
-					}
-                </select>
-                <span  class="text-danger" id="select-error-1"></span>
+            <div class="text-end add-btn">
+                <button type="button" class="btn btn-primary" id="agregarPunto">Agregar</button>
+            </div>
+            <div class="form-group row" id="tipo-precio-cantidad">
+                <div class="col-xl-3 col-lg-3 col-md-6">
+                    <label class="control-label">Tipo de punto</label>
+                    <select class="form-control" id="select-1">
+                        <option value="">Seleccione un tipo de punto</option>
 
-                <label class="control-label">Cantidad</label>
-                <input type="number" class="form-control" name="cantidad-1" min="1" value="1" />
-                <span id="error-cantidad-1" class="text-danger"></span>
+                        @foreach (var tp in Model.Tipo_punto)
+                        {
+                            <option value="@tp.id">@tp.nombre @tp.descripcion</option>
+                        }
+                    </select>
+                </div>     
+                <div class="col-xl-1 col-lg-1 col-md-6">
+                    <label class="control-label">Cantidad</label>
+                    <input type="number" class="form-control" id="cantidad-1" min="1" value="0" />
+                </div>
             </div>
-            <div id="puntos-row"></div>
+            <div id="puntos-cantidad-row"></div>
             <div class="form-group">
-                <label asp-for="NuevoPatron.repeticiones" class="control-label"></label>
-                <input asp-for="NuevoPatron.repeticiones" class="form-control" />
-                <span asp-validation-for="NuevoPatron.repeticiones" class="text-danger"></span>
+                <label class="control-label">Repeticiones</label>
+                <input name="Repeticiones" class="form-control" />
             </div>
+            <input type="hidden" name="idListaTPCantidad" id="idListaTPCantidad" value="" />
             <input type="submit" class="btn btn-primary" />
         </form>
     </div>
@@ -99,6 +99,76 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
+
+    var cont = 1;
+    $('#agregarPunto').click(function(){
+        cont++;
+
+        const tpCantidad = $('#tipo-precio-cantidad').clone();
+        tpCantidad.attr('id', `formulario-${cont}`);
+
+        tpCantidad.find('.add-btn').remove();
+        tpCantidad.prepend(`
+            <div class="text-end remove-btn">
+                <i class="fa-solid fa-trash-can eliminar-punto"></i>
+            </div>
+        `);
+        tpCantidad.find('select').attr('id', `select-${cont}`);
+        tpCantidad.find('input').attr('id', `cantidad-${cont}`);
+
+        tpCantidad.find('input').val('');
+        tpCantidad.find('select').prop('selectedIndex', 0);
+
+        $('#puntos-cantidad-row').append(tpCantidad);
+    });
+
+    $('#puntos-cantidad-row').on('click', '.eliminar-punto', function () {
+        const formulario = $(this).closest('.form-group');    
+        var idFormulario = formulario.attr('id').split('-');
+        var id = idFormulario[1];
+        delete listaTPCantidad[id];
+
+        var inputListaTPCantidad = Object.entries(listaTPCantidad).map(function ([key,value]){
+            return value.TipoPunto +"-"+value.Cantidad;
+        }).join(';');
+        formulario.remove();
+
+        $('#idListaTPCantidad').val(inputListaTPCantidad);
+
+       console.log($('#idListaTPCantidad').val());
+    });
+
+    let listaTPCantidad = {};
+    var tipoPunto;
+    var cantidad;
+
+    var cantidadId;
+    var selectId;
+    var selectedValue;
+    var cantidadValue;
+
+    $(document).on('change', 'select[id^="select-"], input[id^="cantidad-"]', function() {
+        var idParts = $(this).attr('id').split('-');
+        var index = idParts[1];
+
+        actualizarLista(index);
+    });
+
+    function actualizarLista(index){
+        listaTPCantidad[index] = {
+           TipoPunto: $('#select-' + index).val(),
+           Cantidad: $('#cantidad-' + index).val()
+        };
+
+        var inputListaTPCantidad = Object.entries(listaTPCantidad).map(function ([key,value]){
+            return value.TipoPunto +"-"+value.Cantidad;
+        }).join(';');
+
+       $('#idListaTPCantidad').val(inputListaTPCantidad);
+
+       console.log($('#idListaTPCantidad').val());
+    }
+
     $(document).on('click', '.delete-patron', function () {
         const idPatron = $(this).data('id');
         const token = $('input[name="__RequestVerificationToken"]').val();

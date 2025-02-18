@@ -3,7 +3,9 @@ using Gestor.Modelos;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Gestor.Pages.Patron
 {
@@ -23,11 +25,17 @@ namespace Gestor.Pages.Patron
         public int idProducto { get; set; }
 
         [BindProperty]
-        public int IdTipoPunto { get; set; }
+        public string idListaTPCantidad { get; set; }
 
         [BindProperty]
-        public int Cantidad { get; set; }
+        public int Vuelta { get; set; }
 
+        [BindProperty]
+
+        public int Repeticiones { get; set; }
+
+        [BindProperty]
+        public string Parte { get; set; }
         public IList<Gestor.Modelos.Patron> Patron { get; set; } = default!;
 
         public Gestor.Modelos.Producto Producto { get; set; } = default!;
@@ -56,17 +64,51 @@ namespace Gestor.Pages.Patron
 
         public async Task<IActionResult> OnPostAsync()
         {
+            DateTime ahora = DateTime.UtcNow;
             Producto = await _context.Producto.FirstOrDefaultAsync(p => p.Id == idProducto);
             Tipo_punto = await _context.Tipo_punto.ToListAsync();
-
+            String[] listaPartes = idListaTPCantidad.Split(';');
             try
             {
-                NuevoPatron.producto = Producto;
-                NuevoPatron.punto = IdTipoPunto.ToString();
-                NuevoPatron.cantidad = Cantidad;
+                if (listaPartes.Length>1)
+                {
+                    foreach(string tpCantidad in listaPartes)
+                    {
+                        String[] parteTpCantidad = tpCantidad.Split("-");
+                        string tipoPunto = parteTpCantidad[0];
+                        int cantidad = int.Parse(parteTpCantidad[1]);
 
-                _context.Patron.Add(NuevoPatron);
-                await _context.SaveChangesAsync();
+                        NuevoPatron.vuelta = Vuelta;
+                        NuevoPatron.producto = Producto;
+                        NuevoPatron.punto = tipoPunto;
+                        NuevoPatron.cantidad = cantidad;
+                        NuevoPatron.parte = Parte;
+                        NuevoPatron.repeticiones = Repeticiones;
+                        NuevoPatron.fechaCreacion = ahora;
+                        NuevoPatron.fechaModificacion = ahora;
+
+                        _context.Patron.Add(NuevoPatron);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                else
+                {
+                    String[] parteTpCantidad = idListaTPCantidad.Split("-");
+                    string tipoPunto = parteTpCantidad[0];
+                    int cantidad = int.Parse(parteTpCantidad[1]);
+                    NuevoPatron.vuelta = Vuelta;
+                    NuevoPatron.producto = Producto;
+                    NuevoPatron.punto = tipoPunto;
+                    NuevoPatron.cantidad = cantidad;
+                    NuevoPatron.parte = Parte;
+                    NuevoPatron.repeticiones = Repeticiones;
+                    NuevoPatron.fechaCreacion = ahora;
+                    NuevoPatron.fechaModificacion = ahora;
+
+                    _context.Patron.Add(NuevoPatron);
+                    await _context.SaveChangesAsync();
+                }
+
                 return RedirectToPage("./NuevoPatron", new { idProducto = idProducto });
             }
             catch (Exception ex)
