@@ -17,9 +17,7 @@ namespace Gestor.Pages.Patron
         {
             _context = context;
         }
-
-        [BindProperty]
-        public Gestor.Modelos.Patron NuevoPatron { get; set; } = default!;
+        //public Gestor.Modelos.Patron NuevoPatron { get; set; } = default!;
 
         [BindProperty]
         public int idProducto { get; set; }
@@ -74,38 +72,40 @@ namespace Gestor.Pages.Patron
                 {
                     foreach(string tpCantidad in listaPartes)
                     {
+                        Modelos.Patron nuevoPatron = new Modelos.Patron();
                         String[] parteTpCantidad = tpCantidad.Split("-");
                         string tipoPunto = parteTpCantidad[0];
                         int cantidad = int.Parse(parteTpCantidad[1]);
 
-                        NuevoPatron.vuelta = Vuelta;
-                        NuevoPatron.producto = Producto;
-                        NuevoPatron.punto = tipoPunto;
-                        NuevoPatron.cantidad = cantidad;
-                        NuevoPatron.parte = Parte;
-                        NuevoPatron.repeticiones = Repeticiones;
-                        NuevoPatron.fechaCreacion = ahora;
-                        NuevoPatron.fechaModificacion = ahora;
+                        nuevoPatron.vuelta = Vuelta;
+                        nuevoPatron.producto = Producto;
+                        nuevoPatron.punto = tipoPunto;
+                        nuevoPatron.cantidad = cantidad;
+                        nuevoPatron.parte = Parte;
+                        nuevoPatron.repeticiones = Repeticiones;
+                        nuevoPatron.fechaCreacion = ahora;
+                        nuevoPatron.fechaModificacion = ahora;
 
-                        _context.Patron.Add(NuevoPatron);
+                        _context.Patron.Add(nuevoPatron);
                         await _context.SaveChangesAsync();
                     }
                 }
                 else
                 {
+                    Modelos.Patron nuevoPatron = new Modelos.Patron();
                     String[] parteTpCantidad = idListaTPCantidad.Split("-");
                     string tipoPunto = parteTpCantidad[0];
                     int cantidad = int.Parse(parteTpCantidad[1]);
-                    NuevoPatron.vuelta = Vuelta;
-                    NuevoPatron.producto = Producto;
-                    NuevoPatron.punto = tipoPunto;
-                    NuevoPatron.cantidad = cantidad;
-                    NuevoPatron.parte = Parte;
-                    NuevoPatron.repeticiones = Repeticiones;
-                    NuevoPatron.fechaCreacion = ahora;
-                    NuevoPatron.fechaModificacion = ahora;
+                    nuevoPatron.vuelta = Vuelta;
+                    nuevoPatron.producto = Producto;
+                    nuevoPatron.punto = tipoPunto;
+                    nuevoPatron.cantidad = cantidad;
+                    nuevoPatron.parte = Parte;
+                    nuevoPatron.repeticiones = Repeticiones;
+                    nuevoPatron.fechaCreacion = ahora;
+                    nuevoPatron.fechaModificacion = ahora;
 
-                    _context.Patron.Add(NuevoPatron);
+                    _context.Patron.Add(nuevoPatron);
                     await _context.SaveChangesAsync();
                 }
 

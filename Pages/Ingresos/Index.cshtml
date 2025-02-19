@@ -1,8 +1,12 @@
 ﻿@page
-@model Gestor.Pages.Ingresos.IndexModel
-
+@model Gestor.Pages.PaginaIngresos.IndexModel
+@using Producto = Gestor.Modelos.Producto;
 @{
     ViewData["Title"] = "Ingresos";
+    List<string> formaVenta = Model.listaFormaVenta;
+    List<Producto> listaProductos = Model.listaProductos;
+    int ultimoValorHora = Model.ultimoValorHora;
+	int ultimoValorEntrega = Model.ultimoValorEntrega;
 }
 
 <div class="ingresos-content">
@@ -11,43 +15,53 @@
     </div>
     <div class="row">
         <div class="ingresos-variables-box col-xl-6 col-lg-6 col-md-12">
-            <div class="accion-definir text-end">
-                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalCreacion">Nuevo</a>
-            </div>
-            <div class="col-12 row">
-                <div class="col-2">
-                    <label class="text-start">
-                        Valor Venta :
-                    </label>
+            <form method="post">
+                <div class="col-12 row">
+                    <div class="col-2">
+                        <label class="text-start">
+                            Valor Venta :
+                        </label>
+                    </div>
+                    <div class="col-4">
+                        <input type="number" name="valorVenta" class="form-control" min="0" />
+                    </div>
                 </div>
-                <div class="col-4">
-                    @if (Model.Ingresos == null || !Model.Ingresos.Any())
-                    {
-                        <label>0</label>
-                    }
-                    else
-                    {
-                        <label></label>
-                    }
+                <div class="col-12 row">
+                    <div class="col-2">
+                        <label class="text-start">
+                            Forma de entrega:
+                        </label>
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control" name="formaEntrega">
+                            @foreach (var forma in formaVenta)
+                            {
+                                <option value="@forma">@forma</option>
+                            }
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="col-12 row">
-                <div class="col-2">
-                    <label class="text-start">
-                        Forma :
-                    </label>
+                <div class="col-12 row">
+                    <div class="col-2">
+                        <label class="text-start">
+                            Producto vendido:
+                        </label>
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control" name="idProducto">
+                            <option value="">Seleccione un producto</option>
+                            @foreach (var producto in listaProductos)
+                            {
+                                <option value="@producto.Id">@producto.Nombre @producto.Tamanio CM</option>
+                            }
+                        </select>
+                    </div>
                 </div>
-                <div class="col-4">
-                    @if (Model.Ingresos == null || !Model.Ingresos.Any())
-                    {
-                        <label>Por definir</label>
-                    }
-                    else
-                    {
-                        <label></label>
-                    }
-                </div>
-            </div>
+                <input type="hidden" name="valorHora" value="@ultimoValorHora" />
+                <input type="hidden" name="valorEntrega" value="@ultimoValorEntrega" />
+
+                <button asp-page-handler="GuardarValores" type="submit" class="btn btn-primary">Aceptar</button>
+            </form>
         </div>
         <div class="ingresos-fijos-box col-xl-6 col-lg-6 col-md-12">
             <div class="accion-editar text-end">
@@ -59,15 +73,8 @@
                         Valor Hora :
                     </label>
                 </div>
-                <div class="col-4">
-                    @if (Model.Ingresos == null || !Model.Ingresos.Any())
-                    {
-                        <label>0</label>
-                    }
-                    else
-                    {
-                        <label></label>
-                    }
+                <div class="col-4"> 
+                    <label>@ultimoValorHora</label>
                 </div>
             </div>
             <div class="col-12 row">
@@ -77,40 +84,18 @@
                     </label>
                 </div>
                 <div class="col-4">
-                    @if (Model.Ingresos == null || !Model.Ingresos.Any())
-                    {
-                        <label>0</label>
-                    }
-                    else
-                    {
-                        <label></label>
-                    }
+                    <label>@ultimoValorEntrega</label>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal creacion -->
-<div class="modal fade" id="ModalCreacion" tabindex="-1" aria-labelledby="ModalCreacion" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="ModalCreacionLabel">Nuevo Ingreso</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="post" id="valoresNuevos">
+<section class="stadistic-ingresos">
+    <div class="box-grafico">
 
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Guardar</button>
-            </div>
-        </div>
     </div>
-</div>
+</section>
 
 <!-- Modal editar -->
 <div class="modal fade" id="ModalEditar" tabindex="-1" aria-labelledby="ModalEditar" aria-hidden="true">
@@ -120,15 +105,19 @@
                 <h5 class="modal-title" id="ModalEditarLabel">Editar Valores</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form method="post" id="editarValoresFijos">
+            <form method="post">
+                <div class="modal-body">
+                    <label for="valorHora">Valor de Hora</label>
+                    <input type="number" name="valorHora" class="form-control" min="0" value="@ultimoValorHora"/>
 
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Guardar</button>
-            </div>
+                    <label for="valorEntrega">Valor de Entrega</label>
+                    <input type="number" name="valorEntrega" class="form-control" min="0" value="@ultimoValorEntrega"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button asp-page-handler="EditarValores" type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

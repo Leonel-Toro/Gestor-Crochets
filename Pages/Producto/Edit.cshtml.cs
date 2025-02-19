@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Gestor.Data;
 using Gestor.Modelos;
 
-namespace Gestor.Pages.Producto
+namespace Gestor.Pages.PaginaProducto
 {
     public class EditModel : PageModel
     {

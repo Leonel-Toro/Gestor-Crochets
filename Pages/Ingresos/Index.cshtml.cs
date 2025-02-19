@@ -7,8 +7,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Gestor.Data;
 using Gestor.Modelos;
+using Ingreso = Gestor.Modelos.Ingresos;
+using Productos = Gestor.Modelos.Producto;
+using FormaVenta = Gestor.Modelos.FormaVenta;
 
-namespace Gestor.Pages.Ingresos
+
+
+namespace Gestor.Pages.PaginaIngresos
 {
     public class IndexModel : PageModel
     {
@@ -19,31 +24,76 @@ namespace Gestor.Pages.Ingresos
             _context = context;
         }
 
-        public IList<Gestor.Modelos.Ingresos> Ingresos { get;set; } = default!;
+        public IList<Ingreso> listaIngresos { get;set; } = default!;
 
         [BindProperty]
-        public Gestor.Modelos.Ingresos Ingreso { get; set; } = default!;
-
-        public List<string> FormaVenta { get; set; } = default!;
+        public int valorVenta { get; set; } = default!;
+        [BindProperty]
+        public string formaEntrega { get; set; } = default!;
+        [BindProperty]
+        public int valorHora { get; set; } = default!;
+        [BindProperty]
+        public int valorEntrega { get; set; } = default!;
+        [BindProperty]
+        public int idProducto { get; set; } = default!;
+        public List<string> listaFormaVenta { get; set; } = default!;
+        public List<Productos> listaProductos { get; set; } = default!;
+        public int ultimoValorHora { get; set;} = default!;
+        public int ultimoValorEntrega { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
-            FormaVenta = new List<string>
+            listaFormaVenta = new List<string>
             {
-                Gestor.Modelos.FormaVenta.VENTA_DIRECTA,
-                Gestor.Modelos.FormaVenta.VENTA_FACEBOOK,
-                Gestor.Modelos.FormaVenta.VENTA_INSTAGRAM,
-                Gestor.Modelos.FormaVenta.VENTA_OTRO
+                FormaVenta.VENTA_DIRECTA,
+                FormaVenta.VENTA_FACEBOOK,
+                FormaVenta.VENTA_INSTAGRAM,
+                FormaVenta.VENTA_OTRO
             };
-            Ingresos = await _context.Ingresos.ToListAsync();
+            listaIngresos = await _context.Ingresos.ToListAsync();
+            listaProductos = await _context.Producto.ToListAsync();
+
+            ultimoValorHora = Ingreso.getValorVenta(_context);
+            ultimoValorEntrega = Ingreso.getValorEntrega(_context);
+
+
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostGuardarValoresAsync()
         {
-            _context.Ingresos.AddAsync(Ingreso);
+            Productos productoVendido = await _context.Producto.FirstOrDefaultAsync(p => p.Id == idProducto);
+            Ingreso nuevoIngreso = new Ingreso();
+            DateTime ahora = DateTime.UtcNow;
+            
+            nuevoIngreso.valor_venta = valorVenta;
+            nuevoIngreso.forma_venta = formaEntrega;
+            nuevoIngreso.productoVendido = productoVendido;
+            nuevoIngreso.valor_hora = valorHora;
+            nuevoIngreso.valor_entrega = valorEntrega;
+            nuevoIngreso.fechaCreacion = ahora;
+            nuevoIngreso.fechaModificacion = ahora;
+
+            await _context.Ingresos.AddAsync(nuevoIngreso);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return Redirect("/Ingresos");
+        }
+
+        public async Task<IActionResult> OnPostEditarValoresAsync()
+        {
+            Ingreso nuevosValoresFijos = new Ingreso();
+            DateTime ahora = DateTime.UtcNow;
+
+            nuevosValoresFijos.valor_hora = valorHora;
+            nuevosValoresFijos.valor_entrega = valorEntrega;
+            nuevosValoresFijos.valor_fijo = true;
+            nuevosValoresFijos.fechaCreacion = ahora;
+            nuevosValoresFijos.fechaModificacion = ahora;
+
+            await _context.Ingresos.AddAsync(nuevosValoresFijos);
+            await _context.SaveChangesAsync();
+
+            return Redirect("/Ingresos");
         }
     }
 }

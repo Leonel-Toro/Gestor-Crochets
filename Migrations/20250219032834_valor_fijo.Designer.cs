@@ -3,6 +3,7 @@ using System;
 using Gestor.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Gestor.Migrations
 {
     [DbContext(typeof(GestorContext))]
-    partial class GestorContextModelSnapshot : ModelSnapshot
+    [Migration("20250219032834_valor_fijo")]
+    partial class valor_fijo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,7 +74,7 @@ namespace Gestor.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool?>("borrado")
+                    b.Property<bool>("borrado")
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("fechaCreacion")
@@ -81,21 +84,22 @@ namespace Gestor.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("forma_venta")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("productoVendidoId")
+                    b.Property<int>("productoVendidoId")
                         .HasColumnType("integer");
 
                     b.Property<int>("valor_entrega")
                         .HasColumnType("integer");
 
-                    b.Property<bool?>("valor_fijo")
+                    b.Property<bool>("valor_fijo")
                         .HasColumnType("boolean");
 
                     b.Property<int>("valor_hora")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("valor_venta")
+                    b.Property<int>("valor_venta")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -222,7 +226,9 @@ namespace Gestor.Migrations
                 {
                     b.HasOne("Gestor.Modelos.Producto", "productoVendido")
                         .WithMany()
-                        .HasForeignKey("productoVendidoId");
+                        .HasForeignKey("productoVendidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("productoVendido");
                 });
