@@ -57,7 +57,7 @@ namespace Gestor.Modelos
                     .FromSqlRaw(query)
                     .FirstOrDefault();
 
-            if(iProductoPopular.productoVendido.Id != null)
+            if(iProductoPopular != null)
             {
                 Producto pp = _context.Producto.FirstOrDefault(producto => producto.Id == iProductoPopular.productoVendido.Id);
                 return pp.Nombre.ToString();

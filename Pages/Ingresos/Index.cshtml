@@ -23,7 +23,7 @@
         if (ingresos.valor_venta != null && ingresos.valor_venta > 0 && ingresos.borrado != true && ingresos.valor_fijo != true) 
         {
             vHora = ingresos.valor_hora;
-            vEntrega = ingresos.valor_hora;
+            vEntrega = ingresos.valor_entrega;
             vVenta = ingresos.valor_venta ?? 0;
 
             if (ingresos.getFechaCreacionSoloFecha() >= semanaAnterior && ingresos.getFechaCreacionSoloFecha() <= hoy)
