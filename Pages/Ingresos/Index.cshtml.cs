@@ -40,7 +40,7 @@ namespace Gestor.Pages.PaginaIngresos
         public List<Productos> listaProductos { get; set; } = default!;
         public int ultimoValorHora { get; set;} = default!;
         public int ultimoValorEntrega { get; set; } = default!;
-
+        public string productoPopular { get; set; } = default!;
         public async Task OnGetAsync()
         {
             listaFormaVenta = new List<string>
@@ -50,13 +50,12 @@ namespace Gestor.Pages.PaginaIngresos
                 FormaVenta.VENTA_INSTAGRAM,
                 FormaVenta.VENTA_OTRO
             };
-            listaIngresos = await _context.Ingresos.ToListAsync();
+            listaIngresos = await _context.Ingresos.Where(i => i.borrado == false && i.productoVendido.Id != null && i.valor_fijo == false).ToListAsync();
             listaProductos = await _context.Producto.ToListAsync();
 
             ultimoValorHora = Ingreso.getValorVenta(_context);
             ultimoValorEntrega = Ingreso.getValorEntrega(_context);
-
-
+            productoPopular = Ingreso.getProductoPopular(_context);
         }
 
         public async Task<IActionResult> OnPostGuardarValoresAsync()

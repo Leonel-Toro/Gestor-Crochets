@@ -1,12 +1,39 @@
 ﻿@page
 @model Gestor.Pages.PaginaIngresos.IndexModel
 @using Producto = Gestor.Modelos.Producto;
+@using Ingreso = Gestor.Modelos.Ingresos;
+
 @{
     ViewData["Title"] = "Ingresos";
     List<string> formaVenta = Model.listaFormaVenta;
     List<Producto> listaProductos = Model.listaProductos;
     int ultimoValorHora = Model.ultimoValorHora;
-	int ultimoValorEntrega = Model.ultimoValorEntrega;
+    int ultimoValorEntrega = Model.ultimoValorEntrega;
+    IList<Ingreso> lIngresos = Model.listaIngresos;
+    int ingresosTotales = 0;
+    int ingresosSemanales = 0;
+    int vHora = 0,
+        vEntrega = 0,
+        vVenta = 0;
+    DateOnly hoy = DateOnly.FromDateTime(DateTime.Now);
+    DateOnly semanaAnterior = hoy.AddDays(-7);
+    string productoPopular = Model.productoPopular;
+
+    foreach (Ingreso ingresos in lIngresos) {
+        if (ingresos.valor_venta != null && ingresos.valor_venta > 0 && ingresos.borrado != true && ingresos.valor_fijo != true) 
+        {
+            vHora = ingresos.valor_hora;
+            vEntrega = ingresos.valor_hora;
+            vVenta = ingresos.valor_venta ?? 0;
+
+            if (ingresos.getFechaCreacionSoloFecha() >= semanaAnterior && ingresos.getFechaCreacionSoloFecha() <= hoy)
+            {
+                ingresosSemanales += vHora + vEntrega + vVenta;
+            }
+
+            ingresosTotales += vHora + vEntrega + vVenta;
+        }
+    }
 }
 
 <div class="ingresos-content">
@@ -92,8 +119,22 @@
 </div>
 
 <section class="stadistic-ingresos">
-    <div class="box-grafico">
-
+    <div class="info-ingreso">
+        <div class="info-box">
+            <label>Valor Ventas Totales</label>
+            <span>@ingresosTotales</span>
+        </div>
+        <div class="info-box">
+            <label>Valor Ventas Semanales</label>
+            <span>@ingresosSemanales</span>
+        </div>
+        <div class="info-box">
+            <label>Producto Popular</label>
+            <span>@productoPopular</span>
+        </div>
+    </div>
+    <div class="box-grafico" style="width:600px;">
+        <canvas id="graficoTrimestral" width="400" height="200"></canvas>
     </div>
 </section>
 
@@ -121,3 +162,56 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    $(document).ready(function () {
+         $.ajax({
+            url: '/Ingresos/IngresosHistoricos/IngresosTrimestrales',
+            method: 'GET',
+            success: function (data) {
+                const fechas = data.map(i => {
+                    const fechaCompleta = new Date(i.fechaCreacion);
+                    var dia = String(fechaCompleta.getDate());
+                    var mes = String(fechaCompleta.getMonth());
+                    var ano = String(fechaCompleta.getFullYear());
+                    
+                    return `${dia}-${mes}-${ano}`;
+                });
+                const valores = data.map(i => {
+                    var valorHora = i.valor_hora;
+                    var valorEntrega = i.valor_entrega;
+                    var valorVenta = i.valor_venta;
+
+                    return valorEntrega + valorHora + valorVenta;
+                });
+
+                const ctx = document.getElementById('graficoTrimestral').getContext('2d');
+
+                const myChart = new Chart(ctx, {
+                    type: 'line', 
+                    data: {
+                        labels: fechas,
+                        datasets: [{
+                            label: 'Ingresos Diarios',
+                            data: valores,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            },
+            error: function (error) {
+                console.error('Error al obtener los datos:', error);
+            }
+        });
+    });
+</script>
