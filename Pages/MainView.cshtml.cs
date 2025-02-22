@@ -18,13 +18,13 @@ namespace Gestor.Pages
         {
             _context = context;
         }
-
-        private IList<Gestor.Modelos.Producto> listaProductos { get; set; } = default!;
+        public List<Gestor.Modelos.Producto> listaImgProductos { get; set; }
 
         public async Task OnGetAsync()
         {
             ViewData["Header"] = "Principal";
-            listaProductos = await _context.Producto.ToListAsync();
+            listaImgProductos = Gestor.Modelos.Producto.listaProductosRecientes(_context);
+
         }
     }
 }

@@ -193,6 +193,18 @@ namespace Gestor.Migrations
                     b.Property<DateTime>("fechaModificacion")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("imgPrincipal")
+                        .HasColumnType("text")
+                        .HasColumnName("path_img_principal");
+
+                    b.Property<string>("imgSecundaria")
+                        .HasColumnType("text")
+                        .HasColumnName("path_img_secundaria");
+
+                    b.Property<string>("imgTerciaria")
+                        .HasColumnType("text")
+                        .HasColumnName("path_img_terciaria");
+
                     b.HasKey("Id");
 
                     b.ToTable("Producto");

@@ -1,5 +1,6 @@
 ﻿@page
 @model Gestor.Pages.PaginaProducto.IndexModel
+@using Producto = Gestor.Modelos.Producto
 
 @{
     ViewData["Title"] = "Index";
@@ -13,28 +14,36 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Producto[0].Nombre)
+                    @Html.DisplayNameFor(model => model.listaProductos[0].Nombre)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Producto[0].Tamanio)
+                    @Html.DisplayNameFor(model => model.listaProductos[0].Tamanio)
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Producto)
+            @foreach (Producto producto in Model.listaProductos)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Nombre)
+                        @Html.DisplayFor(modelItem => producto.Nombre)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Tamanio)
+                        @Html.DisplayFor(modelItem => producto.Tamanio)
                     </td>
+                    @if (producto.imgPrincipal != null)
+                    {
+                        <td>
+                            <div class="box-img">
+                                <img src="@producto.imgPrincipal" class="img-portada" alt="Portada" />
+                            </div>
+                        </td>
+                    }
                     <td>
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-page="./Edit" asp-route-id="@producto.Id">Edit</a> |
+                        <a asp-page="./DetalleProduct" asp-route-id="@producto.Id">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@producto.Id">Delete</a>
                     </td>
 
                 </tr>
@@ -51,24 +60,33 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="NuevoProducto.Nombre" class="control-label"></label>
-                        <input asp-for="NuevoProducto.Nombre" class="form-control" />
-                        <span asp-validation-for="NuevoProducto.Nombre" class="text-danger"></span>
+                        <label  class="control-label">Nombre del Producto</label>
+                        <input type="text" name="nombreProd" class="form-control" />
+                        <span asp-validation-for="nombreProd" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="NuevoProducto.Tamanio" class="control-label"></label>
-                        <input asp-for="NuevoProducto.Tamanio" class="form-control" />
-                        <span asp-validation-for="NuevoProducto.Tamanio" class="text-danger"></span>
+                        <label class="control-label">Tamaño</label>
+                        <input class="form-control" name="tamanioProd" type="number" min="0" value="0"/>
+                        <span asp-validation-for="tamanioProd" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Subir Imagen</label>
-                        <input type="file" id="producto-imgs" multiple accept="image/jpeg, image/png" class="form-control" />
-                        <small class="text-muted">Selecciona hasta 3 imágenes.</small>
+                        <label class="control-label">Imagen Principal</label>
+                        <input type="file" name="imgPrincipal" id="producto-img" accept="image/jpeg, image/png" class="form-control" />
+                        <span asp-validation-for="imgPrincipal" class="text-danger"></span>
                     </div>
-                    <div id="imgPreview" class="mt-3"></div>
+                    <div class="form-group">
+                        <label class="control-label">Imagen Secundaria</label>
+                        <input type="file" name="imgSecundaria" id="producto-img2" accept="image/jpeg, image/png" class="form-control" />
+                        <span asp-validation-for="imgSecundaria" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Imagen Terciaria</label>
+                        <input type="file" name="imgTerciaria" id="producto-img3" accept="image/jpeg, image/png" class="form-control" />
+                        <span asp-validation-for="imgTerciaria" class="text-danger"></span>
+                    </div>
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-primary" />
                     </div>
@@ -77,25 +95,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        $('#producto-imgs').on('change', function (event) {
-            const maxFiles = 3;
-            const files = event.target.files;
-
-            if (files.length > maxFiles) {
-                alert(`Has seleccionado más de ${maxFiles} imágenes. Solo se tomarán las primeras ${maxFiles}.`);
-
-                const newFiles = Array.from(files).slice(0, maxFiles);
-
-                const dataTransfer = new DataTransfer();
-                newFiles.forEach(file => dataTransfer.items.add(file));
-                event.target.files = dataTransfer.files;
-            }
-        });
-    });
-</script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

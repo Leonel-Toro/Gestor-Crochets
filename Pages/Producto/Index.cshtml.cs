@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Gestor.Data;
 using Gestor.Modelos;
+using ProductoModel = Gestor.Modelos.Producto;
 
 namespace Gestor.Pages.PaginaProducto
 {
@@ -19,38 +20,90 @@ namespace Gestor.Pages.PaginaProducto
             _context = context;
         }
 
-        public IList<Gestor.Modelos.Producto> Producto { get;set; } = default!;
+        public IList<ProductoModel> listaProductos { get;set; } = default!;
 
         [BindProperty]
-        public Gestor.Modelos.Producto NuevoProducto { get; set; } = default!;
+        public string nombreProd { get; set; }
 
+        [BindProperty]
+        public int tamanioProd { get; set; }
+
+        [BindProperty]
+        public IFormFile imgPrincipal { get; set; }
+
+        [BindProperty]
+        public IFormFile imgSecundaria { get; set; }
+
+        [BindProperty]
+        public IFormFile imgTerciaria { get; set; }
         public async Task OnGetAsync()
         {
-            Producto = await _context.Producto.ToListAsync();
+            listaProductos = await _context.Producto.ToListAsync();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (NuevoProducto == null || string.IsNullOrEmpty(NuevoProducto.Nombre)
-                || NuevoProducto.Tamanio <= 0)
+            ProductoModel nuevoProducto = new ProductoModel();
+            string pathImgPrincipal = null;
+            string pathImgSecundaria = null;
+            string pathImgTerciaria = null;
+
+            if (nombreProd == null || nombreProd.Equals(""))
             {
-                ModelState.AddModelError(string.Empty, "Todos los campos son obligatorios y el costo debe ser un valor valido.");
-                return Page();
+                ModelState.AddModelError("nombreProd", "Nombre no puede estar vacio.");
+                return Redirect("./Producto");
             }
 
-            try
+            if (tamanioProd<0)
             {
-                _context.Producto.Add(NuevoProducto);
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
+                ModelState.AddModelError("tamanioProd", "Cantidad no puede estar vacio y debe ser mayor a 0.");
+                return Redirect("./Producto");
             }
-            catch (Exception ex)
+
+            if (imgPrincipal!= null)
             {
-                Console.WriteLine(ex.Message);
-                ModelState.AddModelError(string.Empty, "Ocurrió un error al guardar el costo de material.");
-                return Page();
+                pathImgPrincipal = await saveImgProducto(imgPrincipal, nuevoProducto, "Principal");
+                Console.WriteLine(pathImgPrincipal);
             }
-            
+
+            if (imgSecundaria != null)
+            {
+                 pathImgSecundaria = await saveImgProducto(imgSecundaria, nuevoProducto, "Secundaria");
+            }
+
+            if (imgTerciaria != null)
+            {
+                 pathImgTerciaria = await saveImgProducto(imgTerciaria, nuevoProducto, "Terciaria");
+            }
+
+            nuevoProducto.Nombre = nombreProd;
+            nuevoProducto.Tamanio = tamanioProd;
+            nuevoProducto.imgPrincipal = pathImgPrincipal;
+            nuevoProducto.imgSecundaria = pathImgSecundaria;
+            nuevoProducto.imgTerciaria = pathImgTerciaria;
+            nuevoProducto.fechaCreacion = DateTime.UtcNow;
+            nuevoProducto.fechaModificacion = DateTime.UtcNow;
+
+            _context.Producto.Add(nuevoProducto);
+            await _context.SaveChangesAsync();
+            return RedirectToPage("./Index");
         }
+
+        public async Task<string> saveImgProducto(IFormFile imgProducto, ProductoModel producto, string tipoImg)
+        {
+            string basePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
+            string extensionImg = Path.GetExtension(imgProducto.FileName);
+            string nombreImg = $"img_{tipoImg}_{producto.Nombre}_{producto.Id}{extensionImg}";
+            string imgPath = Path.Combine(basePath, nombreImg);
+
+
+            using (FileStream stream = new FileStream(imgPath, FileMode.Create))
+            {
+                await imgProducto.CopyToAsync(stream);
+            }
+
+            return Path.Combine("img",nombreImg);
+        }
+
     }
 }

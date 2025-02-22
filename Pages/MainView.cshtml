@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Reni Crochets";
     ViewData["Header"] = "Principal";
+
+    List<Gestor.Modelos.Producto> listaImgProductos = Model.listaImgProductos;
 }
 
 <div class="lead-view text-center principal">
@@ -15,12 +17,12 @@
     </div>
     <div class="card-body p-0">
         <div class="world-of-images mx-auto">
-            <img src="./img/fotoPrueba.png" class="examples-img" />
-            <img src="./img/fotoPrueba.png" class="examples-img" />
-            <img src="./img/fotoPrueba.png" class="examples-img" />
-            <img src="./img/fotoPrueba.png" class="examples-img" />
-            <img src="./img/fotoPrueba.png" class="examples-img" />
-            <img src="./img/fotoPrueba.png" class="examples-img" />
+            @foreach (Gestor.Modelos.Producto imgProductos in listaImgProductos)
+            {
+                <a asp-page="Producto/DetalleProduct" asp-route-id="@imgProductos.Id">
+                    <img src="@imgProductos.imgPrincipal" class="examples-img" />
+                </a>
+            }
         </div>
     </div>
 </div>

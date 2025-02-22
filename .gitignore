@@ -361,3 +361,14 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Ignorar la carpeta wwwroot/img
+/wwwroot/img/
+
+# Ignorar archivos de configuración local
+/appsettings.json
+
+# Ignorar carpetas de dependencias
+/node_modules/
+/bin/
+/obj/
