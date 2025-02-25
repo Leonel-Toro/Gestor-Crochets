@@ -5,51 +5,46 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div class="box-info">
+    <div class="head-bar d-flex justify-content-between align-items-center">
+        <h5 class="title-primary white-label m-0">Productos</h5>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalProducto"><span class="title-primary">Agregar</span></button>
+    </div>
+    <div class="body-content py-3">
+        @if(Model.listaProductos!= null && Model.listaProductos.Any())
+        {
+            <div class="row">
+                @foreach (Producto producto in Model.listaProductos)
+                {
+                    <div class="col-xl-6 col-lg-6 col-md-12 producto-info">
+                        <div class="box-img text-center">
+                            @if (producto.imgPrincipal != null)
+                            {
+                                <a asp-page="./DetalleProduct" asp-route-id="@producto.Id">
+                                    <img src="@producto.imgPrincipal" class="img-portada" alt="Portada" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="" data-bs-toggle="modal" data-bs-target="#modalProducto">
+                                    <img src="~/img/fotoPrueba.png" class="img-portada" alt="Portada" />
+                                </a>
+                            }
+                        </div>
 
-<p>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalProducto">Agregar</button>
-</p>
-<div class="d-flex justify-content-center">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.listaProductos[0].Nombre)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.listaProductos[0].Tamanio)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (Producto producto in Model.listaProductos)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => producto.Nombre)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => producto.Tamanio)
-                    </td>
-                    @if (producto.imgPrincipal != null)
-                    {
-                        <td>
-                            <div class="box-img">
-                                <img src="@producto.imgPrincipal" class="img-portada" alt="Portada" />
-                            </div>
-                        </td>
-                    }
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@producto.Id">Edit</a> |
-                        <a asp-page="./DetalleProduct" asp-route-id="@producto.Id">Details</a> |
-                        <a asp-page="./Delete" asp-route-id="@producto.Id">Delete</a>
-                    </td>
-
-                </tr>
-            }
-        </tbody>
-    </table>
+                        <div class="text-center">
+                            <label class="title-prod bold">@producto.Nombre </label>
+                            <span class="text-muted">@producto.Tamanio CM</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        { 
+            <h2 class="text-center mt-4">No existen productos...</h2>
+        } 
+    </div>
 </div>
 
 <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">

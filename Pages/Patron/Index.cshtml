@@ -2,23 +2,29 @@
 @model Gestor.Pages.Patron.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Patrones";
 }
-<div>
-    <div class="row">
-        <div class="col-6">
-            <h1>Patrones</h1>
+<div class="box-info">
+    <div class="head-bar">
+        <label class="title-primary white-label text-uppercase">Patrones</label>
+    </div>
+    <div class="body-content">
+        <div class="row">
             @foreach (var producto in Model.Producto)
             {
-                <div class="patrones-square">
-                    <div class="d-flex justify-content-between">
-                        <label class="me-3">@producto.Nombre</label>
-                        <span>@producto.Tamanio CM</span>
-                        <a class="btn btn-sm btn-secondary" asp-page="./NuevoPatron" asp-route-idProducto="@producto.Id">Agregar patron</a>
+                <div class="col-xl-6 col-lg-6 col-md-12">
+                    <div class="patrones-square">                        
+                        <div class="patron-square-img text-center">
+                            <a class="btn btn-sm btn-secondary btn-patrones" asp-page="./NuevoPatron" asp-route-idProducto="@producto.Id">Agregar patron</a>
+                            <img src="@(producto.imgPrincipal != null ? producto.imgPrincipal :  "./img/fotoPrueba.png")" alt="Productos">
+                        </div>
+                        <div class="d-flex justify-content-center mt-2">
+                            <label class="title-primary me-3">@producto.Nombre</label>
+                            <span>@producto.Tamanio CM</span>
+                        </div>
                     </div>
-                    <img src="./img/fotoPrueba.png" alt="Alternate Text" / style="max-width:-webkit-fill-available; ">
                 </div>
             }
         </div>
-    </div>
+    </div> 
 </div>

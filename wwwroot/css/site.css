@@ -41,6 +41,31 @@ body {
     font-weight: 500;
 }
 
+.white-label{
+    color:white !important; 
+}
+
+.btn-primary {
+    background-color: #f9b9e0 !important;
+    border-color: #f9b9e0 !important;
+    border-bottom: 2px solid;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+    border-bottom: 2px solid #f9f1b9 !important;
+}
+
+.btn-secondary {
+    background-color: #beb2ff !important;
+    border-color: #beb2ff !important;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.btn-secondary:hover {
+    background-color: #968ccf !important;
+    border-color: #968ccf !important;
+}
+
 nav.navbar {
     position: absolute;
     right: 0;
@@ -220,6 +245,93 @@ main .card-title .main-logo .logo-img {
     position:relative;
 }
 
-.img-portada{
-    width:450px;
+.box-info{
+    margin: 1rem 3rem;
+}
+
+.head-bar {
+    padding: 1rem;
+    background: #86b7fe;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    margin-top: 2rem;
+}
+.ingresos-fijos-box{
+    position:relative;
+}
+.ingresos-variables-box {
+    border-right: 3px solid #86b7fe;
+}
+
+.ingresos-fijos-box .accion-editar{
+    position:absolute;
+    right:1rem;
+}
+
+.info-ingreso .info-box {
+    width: 300px;
+    background-color: #b2dcff;
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid black;
+    text-align: center;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.patrones-square {
+    padding: 30px;
+}
+
+.patron-square-img {
+    position: relative;
+}
+
+.patron-square-img img{
+    max-width:80%;
+}
+
+.btn-patrones {
+    position: absolute;
+    right: 7rem;
+    top: 50px;
+}
+
+.info-ingreso .info-box label, .info-ingreso .info-box span {
+    text-shadow: 2px 2px 11px rgba(0, 0, 0, 1);
+}
+
+.info-ingreso .info-box span{
+    font-size:large;
+}
+
+.info-ingreso .info-box:nth-child(2) {
+    background-color: #fff6b2;
+}
+.info-ingreso .info-box:nth-child(3) {
+    background-color: #ffb2b2;
+}
+
+.title-prod {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.box-info .body-content {
+    border: 2px solid #86b7fe;
+    border-top: none;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color:white;
+}
+.stadistic-ingresos .box-grafico {
+    width:50%;
+    max-width:600px;
+}
+
+.producto-info{
+    padding: 1rem;
+}
+
+.img-portada {
+    width: 450px;
 }

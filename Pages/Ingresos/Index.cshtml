@@ -35,105 +35,112 @@
         }
     }
 }
-<div class="ingresos-content">
-    <div class="title-box">
-        <label class="title-primary text-uppercase">Ingresos</label>
+<div class="box-info">
+    <div class="head-bar">
+        <label class="title-primary white-label text-uppercase">Ingresos</label>
     </div>
-    <div class="row">
-        <div class="ingresos-variables-box col-xl-6 col-lg-6 col-md-12">
-            <form method="post">
-                <div class="col-12 row">
-                    <div class="col-2">
-                        <label class="text-start">
-                            Valor Venta :
-                        </label>
+    <div class="body-content">
+        <div class="row">
+            <div class="ingresos-variables-box col-xl-6 col-lg-6 col-md-12">
+                <form class="p-3" method="post">
+                    <div class="col-12 row">
+                        <div class="col-3">
+                            <label class="text-start">
+                                Valor Venta :
+                            </label>
+                        </div>
+                        <div class="col-4">
+                            <input type="number" name="valorVenta" class="form-control" min="0" />
+                        </div>
                     </div>
-                    <div class="col-4">
-                        <input type="number" name="valorVenta" class="form-control" min="0" />
+                    <div class="col-12 row mt-3">
+                        <div class="col-3">
+                            <label class="text-start">
+                                Forma de entrega:
+                            </label>
+                        </div>
+                        <div class="col-4">
+                            <select class="form-control" name="formaEntrega">
+                                @foreach (var forma in formaVenta)
+                                {
+                                    <option value="@forma">@forma</option>
+                                }
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="col-12 row">
-                    <div class="col-2">
-                        <label class="text-start">
-                            Forma de entrega:
-                        </label>
+                    <div class="col-12 row mt-3">
+                        <div class="col-3">
+                            <label class="text-start">
+                                Producto vendido:
+                            </label>
+                        </div>
+                        <div class="col-4">
+                            <select class="form-control" name="idProducto">
+                                <option value="">Seleccione un producto</option>
+                                @foreach (var producto in listaProductos)
+                                {
+                                    <option value="@producto.Id">@producto.Nombre @producto.Tamanio CM</option>
+                                }
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-4">
-                        <select class="form-control" name="formaEntrega">
-                            @foreach (var forma in formaVenta)
-                            {
-                                <option value="@forma">@forma</option>
-                            }
-                        </select>
+                    <input type="hidden" name="valorHora" value="@ultimoValorHora" />
+                    <input type="hidden" name="valorEntrega" value="@ultimoValorEntrega" />
+                    <div class="text-end my-3">
+                        <button asp-page-handler="GuardarValores" type="submit" class="btn btn-primary">Agregar Ingreso</button>
                     </div>
-                </div>
-                <div class="col-12 row">
-                    <div class="col-2">
-                        <label class="text-start">
-                            Producto vendido:
-                        </label>
-                    </div>
-                    <div class="col-4">
-                        <select class="form-control" name="idProducto">
-                            <option value="">Seleccione un producto</option>
-                            @foreach (var producto in listaProductos)
-                            {
-                                <option value="@producto.Id">@producto.Nombre @producto.Tamanio CM</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                <input type="hidden" name="valorHora" value="@ultimoValorHora" />
-                <input type="hidden" name="valorEntrega" value="@ultimoValorEntrega" />
-
-                <button asp-page-handler="GuardarValores" type="submit" class="btn btn-primary">Aceptar</button>
-            </form>
-        </div>
-        <div class="ingresos-fijos-box col-xl-6 col-lg-6 col-md-12">
-            <div class="accion-editar text-end">
-                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEditar">Editar</a>
+                </form>
             </div>
-            <div class="col-12 row">
-                <div class="col-2">
-                    <label class="text-start">
-                        Valor Hora :
-                    </label>
-                </div>
-                <div class="col-4"> 
-                    <label>@ultimoValorHora</label>
-                </div>
-            </div>
-            <div class="col-12 row">
-                <div class="col-2">
-                    <label class="text-start">
-                        Valor Entrega :
-                    </label>
-                </div>
-                <div class="col-4">
-                    <label>@ultimoValorEntrega</label>
-                </div>
+            <div class="col-xl-6 col-lg-6 col-md-12">
+                <div class="ingresos-fijos-box p-3">
+                    <div class="accion-editar text-end">
+                        <btn type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ModalEditar">Editar</btn>
+                    </div>
+                    <div class="col-12 row">
+                        <div class="col-2">
+                            <label class="text-start">
+                                Valor Hora :
+                            </label>
+                        </div>
+                        <div class="col-4">
+                            <label>@ultimoValorHora</label>
+                        </div>
+                    </div>
+                    <div class="col-12 row">
+                        <div class="col-2">
+                            <label class="text-start">
+                                Valor Entrega :
+                            </label>
+                        </div>
+                        <div class="col-4">
+                            <label>@ultimoValorEntrega</label>
+                        </div>
+                    </div>
+                </div>                 
             </div>
         </div>
     </div>
 </div>
 
-<section class="stadistic-ingresos">
-    <div class="info-ingreso">
-        <div class="info-box">
-            <label>Valor Ventas Totales</label>
-            <span>@ingresosTotales</span>
+<section class="stadistic-ingresos mt-4">
+    <div class="info-ingreso d-flex justify-content-center my-3">
+        <div class="info-box me-3 d-flex flex-column white-label">
+            <label class="bold title-primary">Valor Ventas Totales</label>
+            <span class="regular">$ @ingresosTotales CLP</span>
         </div>
-        <div class="info-box">
-            <label>Valor Ventas Semanales</label>
-            <span>@ingresosSemanales</span>
+        <div class="info-box me-3 d-flex flex-column white-label">
+            <label class="bold title-primary">Valor Ventas Semanales</label>
+            <span class="regular">$ @ingresosSemanales CLP</spa>
         </div>
-        <div class="info-box">
-            <label>Producto Popular</label>
-            <span>@productoPopular</span>
+        <div class="info-box me-3 d-flex flex-column white-label">
+            <label class="bold title-primary">Producto Popular</label>
+            <span class="regular">@productoPopular</span>
         </div>
     </div>
-    <div class="box-grafico" style="width:600px;">
+    <div class="box-grafico m-auto">
         <canvas id="graficoTrimestral" width="400" height="200"></canvas>
+    </div>
+    <div class="box-grafico m-auto">
     </div>
 </section>
 
