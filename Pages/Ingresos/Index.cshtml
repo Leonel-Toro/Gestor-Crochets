@@ -138,7 +138,7 @@
         </div>
     </div>
     <div class="box-grafico m-auto">
-        <canvas id="graficoTrimestral" width="400" height="200"></canvas>
+        <canvas id="graficoTrimestral" class="box-shadow" width="400" height="200"></canvas>
     </div>
     <div class="box-grafico m-auto">
     </div>
@@ -169,6 +169,16 @@
     </div>
 </div>
 
+<style>
+    #graficoTrimestral {
+        background: white;
+        padding: 10px;
+        border: 1px solid #beb2ff;
+        border-radius: 5px;
+        padding: 10px;
+        margin-top: 3rem;
+    }
+</style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     $(document).ready(function () {
