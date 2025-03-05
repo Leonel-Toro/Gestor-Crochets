@@ -22,7 +22,7 @@ namespace Gestor.Pages.Patron
 
         public async Task OnGetAsync()
         {
-            Producto = await _context.Producto.ToListAsync();
+            Producto = await _context.Producto.OrderByDescending(prod => prod.fechaModificacion).ToListAsync();
         }
     }
 }

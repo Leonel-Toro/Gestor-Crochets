@@ -23,6 +23,9 @@ namespace Gestor.Pages.PaginaProducto
         public IList<ProductoModel> listaProductos { get;set; } = default!;
 
         [BindProperty]
+        public string idProd { get; set; }
+
+        [BindProperty]
         public string nombreProd { get; set; }
 
         [BindProperty]
@@ -38,15 +41,12 @@ namespace Gestor.Pages.PaginaProducto
         public IFormFile imgTerciaria { get; set; }
         public async Task OnGetAsync()
         {
-            listaProductos = await _context.Producto.ToListAsync();
+            listaProductos = await _context.Producto.OrderByDescending(prod => prod.fechaCreacion).ToListAsync();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             ProductoModel nuevoProducto = new ProductoModel();
-            string pathImgPrincipal = null;
-            string pathImgSecundaria = null;
-            string pathImgTerciaria = null;
 
             if (nombreProd == null || nombreProd.Equals(""))
             {
@@ -60,31 +60,55 @@ namespace Gestor.Pages.PaginaProducto
                 return Redirect("./Producto");
             }
 
-            if (imgPrincipal!= null)
+            nuevoProducto.Nombre = nombreProd;
+            nuevoProducto.Tamanio = tamanioProd;
+            nuevoProducto.fechaCreacion = DateTime.UtcNow;
+            nuevoProducto.fechaModificacion = DateTime.UtcNow;
+
+            _context.Producto.Add(nuevoProducto);
+            await _context.SaveChangesAsync();
+            return RedirectToPage("./Index");
+        }
+
+        public async Task<IActionResult> OnPostEditarProductoAsync()
+        {
+            ProductoModel producto = await _context.Producto.FirstOrDefaultAsync(prod => prod.Id == Int32.Parse(idProd));
+            string pathImgPrincipal = null;
+            string pathImgSecundaria = null;
+            string pathImgTerciaria = null;
+
+            if (!string.IsNullOrEmpty(nombreProd))
             {
-                pathImgPrincipal = await saveImgProducto(imgPrincipal, nuevoProducto, "Principal");
+                producto.Nombre = nombreProd;
+            }
+
+            if (tamanioProd < 0 || !tamanioProd.Equals(producto.Tamanio))
+            {
+                producto.Tamanio = tamanioProd;
+            }
+
+            if (imgPrincipal != null)
+            {
+                pathImgPrincipal = await saveImgProducto(imgPrincipal, producto, "Principal");
                 Console.WriteLine(pathImgPrincipal);
             }
 
             if (imgSecundaria != null)
             {
-                 pathImgSecundaria = await saveImgProducto(imgSecundaria, nuevoProducto, "Secundaria");
+                pathImgSecundaria = await saveImgProducto(imgSecundaria, producto, "Secundaria");
             }
 
             if (imgTerciaria != null)
             {
-                 pathImgTerciaria = await saveImgProducto(imgTerciaria, nuevoProducto, "Terciaria");
+                pathImgTerciaria = await saveImgProducto(imgTerciaria, producto, "Terciaria");
             }
 
-            nuevoProducto.Nombre = nombreProd;
-            nuevoProducto.Tamanio = tamanioProd;
-            nuevoProducto.imgPrincipal = pathImgPrincipal;
-            nuevoProducto.imgSecundaria = pathImgSecundaria;
-            nuevoProducto.imgTerciaria = pathImgTerciaria;
-            nuevoProducto.fechaCreacion = DateTime.UtcNow;
-            nuevoProducto.fechaModificacion = DateTime.UtcNow;
+            producto.imgPrincipal = pathImgPrincipal;
+            producto.imgSecundaria = pathImgSecundaria;
+            producto.imgTerciaria = pathImgTerciaria;
+            producto.fechaModificacion = DateTime.UtcNow;
 
-            _context.Producto.Add(nuevoProducto);
+            _context.Producto.Update(producto);
             await _context.SaveChangesAsync();
             return RedirectToPage("./Index");
         }

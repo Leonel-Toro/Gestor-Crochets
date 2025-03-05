@@ -12,15 +12,17 @@
         <div class="row">
             @foreach (var producto in Model.Producto)
             {
-                <div class="col-xl-6 col-lg-6 col-md-12">
-                    <div class="patrones-square">                        
-                        <div class="patron-square-img text-center">
+                <div class="col-xl-4 col-lg-4 col-md-12">
+                    <div class="patrones-square d-flex justify-content-center  text-center position-relative">
+                        <div class="patron-square-img text-center box-shadow">
                             <a class="btn btn-sm btn-secondary btn-patrones" asp-page="./NuevoPatron" asp-route-idProducto="@producto.Id">Agregar patron</a>
-                            <img src="@(producto.imgPrincipal != null ? producto.imgPrincipal :  "./img/fotoPrueba.png")" alt="Productos">
-                        </div>
-                        <div class="d-flex justify-content-center mt-2">
-                            <label class="title-primary me-3">@producto.Nombre</label>
-                            <span>@producto.Tamanio CM</span>
+                            <a asp-page="./NuevoPatron" asp-route-idProducto="@producto.Id">
+                                <img src="@(producto.imgPrincipal != null ? producto.imgPrincipal :  "./img/fotoPrueba.png")" class="img-portada" alt="Productos">
+                            </a>
+                            <div class="box-img-text text-center">
+                                <label class="title-primary me-3">@producto.Nombre</label>
+                                <span>@producto.Tamanio CM</span>
+                            </div>
                         </div>
                     </div>
                 </div>
