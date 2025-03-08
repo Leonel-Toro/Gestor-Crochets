@@ -1,0 +1,4 @@
+﻿@page
+@model Gestor.Pages.Producto.EditarProductoModel
+
+@await Component.InvokeAsync("EditarProductoViewComponent", new { idProd = Model.producto?.Id })

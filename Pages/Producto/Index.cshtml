@@ -19,9 +19,9 @@
                     <div class="col-xl-4 col-lg-4 col-md-12 producto-info p-0">
                         <div class="box-img d-flex justify-content-center  text-center position-relative p-4">
                             <div class="box-img-color box-shadow">
+                                <a class="btn btn-secondary btn-patrones" data-id="@producto.Id" data-bs-toggle="modal" data-bs-target="#modalEditarProducto">Editar</a>
                                 @if (producto.imgPrincipal != null)
                                 {                            
-                                    <a class="btn btn-secondary btn-patrones" data-id="@producto.Id" data-bs-toggle="modal" data-bs-target="#modalEditarProducto">Editar</a>
                                     <a asp-page="./DetalleProduct" asp-route-id="@producto.Id">
                                         <img src="@producto.imgPrincipal" class="img-portada" alt="Portada" />
                                     </a>   
@@ -33,8 +33,8 @@
                                     </a>
                                 }
                                 <div class="box-img-text text-center">
-                                    <label class="title-primary bold">@producto.Nombre </label>
-                                    <span class="text-muted">@producto.Tamanio CM</span>
+                                    <label class="title-primary bold" id="nombreProd">@producto.Nombre </label>
+                                    <span class="text-muted" id="tamanioProd">@producto.Tamanio CM</span>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
 <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header head-bar">
                 <h5 class="modal-title" id="formModalLabel">Agregar Producto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -81,46 +81,14 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+<div class="modal fade" id="editarProd" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="formModalLabel">Editar Producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="head-bar d-flex justify-content-between">
+                <h5 class="white-label" id="formModalLabel">Editar Producto</h5>
+                <button type="button" class="btn-close white-label" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form asp-page-handler="EditarProducto" method="post" enctype="multipart/form-data">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" name="idProd" id="idProducto" />
-                    <div class="form-group">
-                        <label class="control-label">Editar Nombre del Producto</label>
-                        <input type="text" name="nombreProd" class="form-control"/>
-                        <span asp-validation-for="nombreProd" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Editar Tamaño</label>
-                        <input class="form-control" name="tamanioProd" type="number" min="0" value="0" />
-                        <span asp-validation-for="tamanioProd" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Imagen Principal</label>
-                        <input type="file" name="imgPrincipal" id="producto-img" accept="image/jpeg, image/png" class="form-control" />
-                        <span asp-validation-for="imgPrincipal" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Imagen Secundaria</label>
-                        <input type="file" name="imgSecundaria" id="producto-img2" accept="image/jpeg, image/png" class="form-control" />
-                        <span asp-validation-for="imgSecundaria" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Imagen Terciaria</label>
-                        <input type="file" name="imgTerciaria" id="producto-img3" accept="image/jpeg, image/png" class="form-control" />
-                        <span asp-validation-for="imgTerciaria" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                    </div>
-                </form>
+            <div class="modal-body" id="contenidoEditarProd">
             </div>
         </div>
     </div>
@@ -130,7 +98,24 @@
     $(document).ready(function () {
         $('.btn-patrones').on('click', function () {
             var idProducto = $(this).data('id');
-            $('#idProducto').val(idProducto);
+            
+            $.ajax({
+                url: '/Producto/EditarProducto?idProd='+idProducto,
+                type: "GET",
+                success: function(dataProd){
+                    if(!dataProd){
+                        console.log('Error no se recibieron datos');
+                        alert('No existe ese producto.');
+                    }else {
+                        $('#contenidoEditarProd').html(dataProd);
+                        $('#editarProd').modal('show');
+                    }
+                },
+                error: function (error) {
+                    console.error('Error al obtener los datos:', error);
+                    alert('Error al obtener los datos');
+                }
+            });
         });
     });
 </script>

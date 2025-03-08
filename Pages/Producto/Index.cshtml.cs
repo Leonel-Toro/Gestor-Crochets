@@ -70,64 +70,6 @@ namespace Gestor.Pages.PaginaProducto
             return RedirectToPage("./Index");
         }
 
-        public async Task<IActionResult> OnPostEditarProductoAsync()
-        {
-            ProductoModel producto = await _context.Producto.FirstOrDefaultAsync(prod => prod.Id == Int32.Parse(idProd));
-            string pathImgPrincipal = null;
-            string pathImgSecundaria = null;
-            string pathImgTerciaria = null;
-
-            if (!string.IsNullOrEmpty(nombreProd))
-            {
-                producto.Nombre = nombreProd;
-            }
-
-            if (tamanioProd < 0 || !tamanioProd.Equals(producto.Tamanio))
-            {
-                producto.Tamanio = tamanioProd;
-            }
-
-            if (imgPrincipal != null)
-            {
-                pathImgPrincipal = await saveImgProducto(imgPrincipal, producto, "Principal");
-                Console.WriteLine(pathImgPrincipal);
-            }
-
-            if (imgSecundaria != null)
-            {
-                pathImgSecundaria = await saveImgProducto(imgSecundaria, producto, "Secundaria");
-            }
-
-            if (imgTerciaria != null)
-            {
-                pathImgTerciaria = await saveImgProducto(imgTerciaria, producto, "Terciaria");
-            }
-
-            producto.imgPrincipal = pathImgPrincipal;
-            producto.imgSecundaria = pathImgSecundaria;
-            producto.imgTerciaria = pathImgTerciaria;
-            producto.fechaModificacion = DateTime.UtcNow;
-
-            _context.Producto.Update(producto);
-            await _context.SaveChangesAsync();
-            return RedirectToPage("./Index");
-        }
-
-        public async Task<string> saveImgProducto(IFormFile imgProducto, ProductoModel producto, string tipoImg)
-        {
-            string basePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
-            string extensionImg = Path.GetExtension(imgProducto.FileName);
-            string nombreImg = $"img_{tipoImg}_{producto.Nombre}_{producto.Id}{extensionImg}";
-            string imgPath = Path.Combine(basePath, nombreImg);
-
-
-            using (FileStream stream = new FileStream(imgPath, FileMode.Create))
-            {
-                await imgProducto.CopyToAsync(stream);
-            }
-
-            return Path.Combine("img",nombreImg);
-        }
 
     }
 }

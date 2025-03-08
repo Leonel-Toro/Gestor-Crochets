@@ -1,0 +1,59 @@
+﻿@model Gestor.Modelos.Producto
+@{
+    Layout = null;
+}
+
+<form asp-page-handler="EditarProducto" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" name="idProd" value="@Model.Id"/>
+    <div class="form-group">
+        <label class="control-label mb-2">Editar Nombre del Producto</label>
+        <input type="text" name="nombreProd" id="nombre-Prod" class="form-control" value="@Model.Nombre" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <div class="form-group mt-3">
+        <label class="control-label mb-2">Editar Tamaño</label>
+        <input class="form-control" name="tamanioProd" id="tamanio-Prod" type="number" min="0" value="@Model.Tamanio" />
+        <span asp-validation-for="Tamanio" class="text-danger"></span>
+    </div>
+    <div class="editar-img">
+        <div class="form-group editar-img-form mt-3">
+            <label class="control-label mb-2">Imagen Principal</label>
+            <input type="file" name="imgPrincipal" id="producto-img" accept="image/jpeg, image/png" class="form-control" />
+            <span asp-validation-for="imgPrincipal" class="text-danger"></span>
+            @if(Model.imgPrincipal!= null)
+            {
+                <div class="box-img text-center mt-3">
+                    <img src="@Model.imgPrincipal" class="img-portada" />
+                </div>
+            }
+        </div>
+        <div class="form-group editar-img-form mt-3">
+            <label class="control-label mb-2">Imagen Secundaria</label>
+            <input type="file" name="imgSecundaria" id="producto-img2" accept="image/jpeg, image/png" class="form-control" />
+            <span asp-validation-for="imgSecundaria" class="text-danger"></span>
+
+            @if (Model.imgSecundaria != null)
+            {
+                <div class="box-img text-center mt-3">
+                    <img src="@Model.imgSecundaria" class="img-portada" />
+                </div>
+            }
+        </div>
+        <div class="form-group editar-img-form mt-3">
+            <label class="control-label mb-2">Imagen Terciaria</label>
+            <input type="file" name="imgTerciaria" id="producto-img3" accept="image/jpeg, image/png" class="form-control" />
+            <span asp-validation-for="imgTerciaria" class="text-danger"></span>
+
+            @if (Model.imgTerciaria != null)
+            {
+                <div class="box-img text-center mt-3">
+                    <img src="@Model.imgTerciaria" class="img-portada" />
+                </div>
+            }
+        </div>
+    </div>
+    <div class="form-group my-3 text-end">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
