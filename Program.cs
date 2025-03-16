@@ -40,4 +40,20 @@ app.MapGet("/", context =>
     return Task.CompletedTask;
 });
 
+// Aplica automáticamente las migraciones pendientes
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<GestorContext>();
+        context.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+    }
+}
+
 app.Run();
