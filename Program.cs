@@ -6,8 +6,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
+
+var connectionBD = Environment.GetEnvironmentVariable("DB_CROCHET")
+    ?? builder.Configuration.GetConnectionString("DB_CROCHET")
+    ?? throw new InvalidOperationException("Connection string 'DB_CROCHET' not found.");
+
 builder.Services.AddDbContext<GestorContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DB_CROCHET") ?? throw new InvalidOperationException("Connection string 'DB_CROCHET' not found.")));
+    options.UseNpgsql(connectionBD));
+
+//builder.Services.AddDbContext<GestorContext>(options =>
+//    options.UseNpgsql(builder.Configuration.GetConnectionString("DB_CROCHET") ?? throw new InvalidOperationException("Connection string 'DB_CROCHET' not found.")));
 
 var app = builder.Build();
 

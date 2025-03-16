@@ -21,10 +21,10 @@ COPY --from=build /out .
 # Expone el puerto en el que correrá la aplicación
 EXPOSE 8080
 
-# Comando de inicio de la aplicación
-CMD ["dotnet", "Gestor.dll"]
-
 # VARIABLE DE ENTORNO prod
 ENV ASPNETCORE_ENVIRONMENT=Production
+
+# Comando de inicio de la aplicación
+CMD ["dotnet", "Gestor.dll"]
 
 
