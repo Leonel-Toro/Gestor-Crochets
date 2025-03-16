@@ -23,3 +23,8 @@ EXPOSE 8080
 
 # Comando de inicio de la aplicación
 CMD ["dotnet", "Gestor.dll"]
+
+# VARIABLE DE ENTORNO prod
+ENV ASPNETCORE_ENVIRONMENT=Production
+
+
