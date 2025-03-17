@@ -17,7 +17,7 @@
         <span asp-validation-for="Tamanio" class="text-danger"></span>
     </div>
     <div class="editar-img">
-        <div class="form-group editar-img-form mt-3">
+        <div class="form-group editar-img-form my-3">
             <label class="control-label mb-2">Imagen Principal</label>
             <input type="file" name="imgPrincipal" id="producto-img" accept="image/jpeg, image/png" class="form-control" />
             <span asp-validation-for="imgPrincipal" class="text-danger"></span>
@@ -28,14 +28,14 @@
                 </div>
             }
         </div>
-        <div class="form-group editar-img-form mt-3">
+        <div class="form-group editar-img-form my-3">
             <label class="control-label mb-2">Imagen Secundaria</label>
             <input type="file" name="imgSecundaria" id="producto-img2" accept="image/jpeg, image/png" class="form-control" />
             <span asp-validation-for="imgSecundaria" class="text-danger"></span>
 
             @if (Model.imgSecundaria != null)
             {
-                <div class="box-img text-center mt-3">
+                <div class="box-img text-center my-3">
                     <img src="@Model.imgSecundaria" class="img-portada" />
                 </div>
             }

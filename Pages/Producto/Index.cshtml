@@ -27,10 +27,11 @@
                                     </a>   
                                 }
                                 else
-                                {   
-                                    <a href="" data-bs-toggle="modal" data-bs-target="#modalEditarProducto">
+                                {
+                                    <a class="img-patrones" data-id="@producto.Id" data-bs-toggle="modal" data-bs-target="#modalEditarProducto">
                                         <img src="~/img/fotoPrueba.png" class="img-portada" alt="Portada" />
                                     </a>
+                                    
                                 }
                                 <div class="box-img-text text-center">
                                     <label class="title-primary bold" id="nombreProd">@producto.Nombre </label>
@@ -96,7 +97,7 @@
 
 <script>
     $(document).ready(function () {
-        $('.btn-patrones').on('click', function () {
+        $('.btn-patrones,.img-patrones').on('click', function () {
             var idProducto = $(this).data('id');
             
             $.ajax({

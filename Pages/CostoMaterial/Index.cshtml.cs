@@ -37,10 +37,6 @@ namespace Gestor.Pages.CostoMaterial
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
 
             if (NuevoCostoMaterial == null ||
                 string.IsNullOrEmpty(NuevoCostoMaterial.Lugar) ||
@@ -58,7 +54,7 @@ namespace Gestor.Pages.CostoMaterial
                 await _context.SaveChangesAsync();
 
                 // Redirige al usuario después de guardar
-                return RedirectToPage();
+                return Page();
             }
             catch (Exception ex)
             {
