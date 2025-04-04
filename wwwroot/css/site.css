@@ -309,7 +309,7 @@ main .card-title .main-logo .logo-img {
 .btn-patrones {
     position: absolute;
     right: 1rem;
-    top: 50px;
+    top: 25px;
 }
 
 .info-ingreso .info-box label, .info-ingreso .info-box span {
@@ -382,4 +382,99 @@ main .card-title .main-logo .logo-img {
 .tabla-materiales thead {
     background: #86b7fe;
     color:white;
+}
+
+#new-boxes-patron {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 90px;
+    align-items: flex-start;
+    max-width: calc(100% - 750px);
+    width: 100%;
+}
+
+#vueltas-nro {
+    display:flex;
+    position:relative;
+}
+
+.vueltas{
+    width:fit-content;
+}
+
+.punto-cantidad{
+    width:80%;
+}
+
+
+.title-producto-patron{
+    width:fit-content;
+}
+
+.patron-img-producto {
+    position: relative;
+    right: 250px
+}
+
+.patron-img-producto .img-patron-detalle {
+    width: 450px;
+    height: 600px;
+}
+
+.box-patron {
+    width: 450px;
+    border: 2px dashed #f9b9e0;
+    border-radius: 10px;
+    padding: 20px;
+    background: white;
+}
+
+.add-btn {
+    position: absolute;
+    right: 0;
+}
+
+.header-patron {
+    position: relative;
+}
+
+.title-patron:focus-visible{
+    outline:unset;
+}
+
+.title-patron {
+    border: none;
+    position: absolute;
+    top: -50px;
+    font-size: 30px;
+    background-color: transparent;
+    color: white;
+    text-shadow: -2px -2px 0 #f9b9e0, 2px -2px 0 #f9b9e0, -2px 2px 0 #f9b9e0, 2px 2px 0 #f9b9e0;
+}
+
+.btn-plus {
+    position: absolute;
+    top: -40px;
+    right: -30px;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+
+.btn-plus:hover{
+    transform:scale(1.05)
+}
+
+.btn-plus i.fa-plus {
+    color: #f9b9e0;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.btn-plus i.fa-cloud {
+    color: white;
+    font-size: 30px;
+    text-shadow: -2px -2px 0 #f9b9e0, 2px -2px 0 #f9b9e0, -2px 2px 0 #f9b9e0, 2px 2px 0 #f9b9e0;
 }

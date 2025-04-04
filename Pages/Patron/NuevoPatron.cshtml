@@ -1,84 +1,101 @@
 ﻿@page "{idProducto:int}"
 @model Gestor.Pages.Patron.NuevoPatronModel
 @Html.AntiForgeryToken()
+@using PatronModel = Gestor.Modelos.Patron;
+@using Tipo_PuntoModel = Gestor.Modelos.Tipo_punto;
 
 @{
     var producto = Model.Producto;
+    var patrones = Model.Patron;
+    var context = Model.Context;
 }
 
-<div class="">
-    <h1>@producto.Nombre</h1>
-    <div>
-        <form method="post">
-            <input type="hidden" name="idProducto" value="@producto.Id"/>
-            <div class="form-group">
-                <label class="control-label">Vuelta</label>
-                <input name="Vuelta" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label class="control-label">Parte</label>
-                <input name="Parte" class="form-control" />
-            </div>
-            <div class="text-end add-btn">
-                <button type="button" class="btn btn-primary" id="agregarPunto">Agregar</button>
-            </div>
-            <div class="form-group row" id="tipo-precio-cantidad">
-                <div class="col-xl-3 col-lg-3 col-md-6">
-                    <label class="control-label">Tipo de punto</label>
-                    <select class="form-control" id="select-1">
-                        <option value="">Seleccione un tipo de punto</option>
-
-                        @foreach (var tp in Model.Tipo_punto)
+<div class="position-relative p-5">
+    <div class="title-producto-patron">
+        <h1 class="text-uppercase mb-5">@producto.Nombre</h1>
+    </div>
+    <div class="carrusel">
+        <div class="patron-img-producto float-end">
+            @if(producto.imgPrincipal != null){
+                <img src="@Url.Content('\\'+producto.imgPrincipal)"class="img-patron-detalle" alt="producto_principal" />
+            }
+        </div>
+    </div>
+    <div id="new-boxes-patron">
+        @if(patrones != null && patrones.Any())
+        {
+            @foreach (PatronModel patron in patrones)
+            {
+                <div class="box-patron">
+                    <div class="header-patron">
+                        <label class="title-patron bold">@patron.parte</label>
+                        <div class="btn-plus" id="btn-plus-1">
+                            <i class="fa-solid fa-cloud"></i>
+                            <i class="fa-solid fa-plus"></i>
+                        </div>
+                    </div>
+                    @if (patron.getListaTipoPuntoByPatron() != null)
+                    {
+                        @foreach (Tipo_PuntoModel tp in patron.getListaTipoPuntoByPatron())
                         {
-                            <option value="@tp.id">@tp.nombre @tp.descripcion</option>
+                            <div id="vueltas-nro" class="vuelta-nro-@tp.vuelta position-relative my-3">
+                                <div class="vueltas">
+                                    <label class="control-label" style="color:@tp.color">V @tp.vuelta:</label>
+                                </div>
+                                <div class="d-flex flex-column punto-cantidad">
+                                    <label class="control-control" style="color:@tp.color">@tp.nombre</label>
+                                </div>
+                            </div>
                         }
-                    </select>
-                </div>     
-                <div class="col-xl-1 col-lg-1 col-md-6">
-                    <label class="control-label">Cantidad</label>
-                    <input type="number" class="form-control" id="cantidad-1" min="1" value="0" />
+                    }
+                    <div id="vueltas-nro" class="vuelta-nro-1 position-relative my-3">
+                        <div class="vueltas">
+                            <label class="control-label" id="vuelta-1">V1:</label>
+                        </div>
+                        <div class="d-flex flex-column punto-cantidad">
+                            <input type="text" class="form-control" id="TpCantidad-1" placeholder="ej: 4 pb" />
+                        </div>
+                        <input type="text" id="color-1">
+                    </div>
+                    <div class="text-end">
+                        <button type="button" class="btn btn-primary btn-vuelta-agregar">Agregar vuelta</button>
+                    </div>
                 </div>
+            }
+        }
+        else
+        {
+            <div class="box-patron">
+                <div class="header-patron">
+                    <input class="title-patron bold" id="parte-1" value="Parte" />
+                    <div class="btn-plus" id="btn-plus-1">
+                        <i class="fa-solid fa-cloud"></i>
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                </div>
+                <div id="vueltas-nro" class="vuelta-nro-1 position-relative my-3">
+                    <div class="vueltas">
+                        <label class="control-label" id="vuelta-1">V1:</label>
+                    </div>
+                    <div class="d-flex flex-column punto-cantidad">
+                        <input type="text" class="form-control" id="TpCantidad-1" placeholder="ej: 4 pb" />
+                    </div>
+                    <input type="text" id="color-1">
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn btn-primary btn-vuelta-agregar">Agregar vuelta</button>
+                </div>
+                <form method="post" id="formulario-patron">
+                    <input type="hidden" name="Color" value="" />
+                    <input type="hidden" name="Parte" value="" />
+                    <input type="hidden" name="Vuelta" value="" />
+                    <input type="hidden" name="TipoPunto" value="" />
+                    <input type="hidden" name="idProducto" value="@producto.Id" />
+                </form>
             </div>
-            <div id="puntos-cantidad-row"></div>
-            <div class="form-group">
-                <label class="control-label">Repeticiones</label>
-                <input name="Repeticiones" class="form-control" />
-            </div>
-            <input type="hidden" name="idListaTPCantidad" id="idListaTPCantidad" value="" />
-            <input type="submit" class="btn btn-primary" />
-        </form>
+        }
     </div>
 </div>
-
-@if (Model.Patron != null && Model.Patron.Any())
-{
-    foreach (var patron in Model.Patron)
-    {
-        <div id="patron-@patron.Id" class="patron-box">
-            <div class="vuelta-info">
-                <label class="patron-vuelta title-text">Vuelta @patron.vuelta</label>
-            </div>
-            <label class="patron-partes">@patron.parte</label>
-            @foreach(var tp in Model.Tipo_punto)
-            {
-                @if(tp.id.ToString().Equals(patron.punto))
-                {
-                    <label>@tp.nombre</label>
-                }
-            }
-            <label class="patron-cantidad">@patron.cantidad</label>
-            <label class="patron-rep">@patron.repeticiones Repeticiones</label>
-            <div class="d-flex" id="patron-@patron.Id">
-                <div class="edit-patron" data-bs-toggle="modal" data-bs-target="#formModal" style="cursor:pointer">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </div>
-                <div class="delete-patron" data-id="@patron.Id" style="cursor:pointer">
-                    <i class="fa-solid fa-trash-can"></i>
-                </div>
-            </div>
-        </div>
-    }
-}
 
 <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -95,104 +112,85 @@
     </div>
 </div>
 
-
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-<script>
-
-    var cont = 1;
-    $('#agregarPunto').click(function(){
-        cont++;
-
-        const tpCantidad = $('#tipo-precio-cantidad').clone();
-        tpCantidad.attr('id', `formulario-${cont}`);
-
-        tpCantidad.find('.add-btn').remove();
-        tpCantidad.prepend(`
-            <div class="text-end remove-btn">
-                <i class="fa-solid fa-trash-can eliminar-punto"></i>
-            </div>
-        `);
-        tpCantidad.find('select').attr('id', `select-${cont}`);
-        tpCantidad.find('input').attr('id', `cantidad-${cont}`);
-
-        tpCantidad.find('input').val('');
-        tpCantidad.find('select').prop('selectedIndex', 0);
-
-        $('#puntos-cantidad-row').append(tpCantidad);
-    });
-
-    $('#puntos-cantidad-row').on('click', '.eliminar-punto', function () {
-        const formulario = $(this).closest('.form-group');    
-        var idFormulario = formulario.attr('id').split('-');
-        var id = idFormulario[1];
-        delete listaTPCantidad[id];
-
-        var inputListaTPCantidad = Object.entries(listaTPCantidad).map(function ([key,value]){
-            return value.TipoPunto +"-"+value.Cantidad;
-        }).join(';');
-        formulario.remove();
-
-        $('#idListaTPCantidad').val(inputListaTPCantidad);
-
-       console.log($('#idListaTPCantidad').val());
-    });
-
-    let listaTPCantidad = {};
-    var tipoPunto;
-    var cantidad;
-
-    var cantidadId;
-    var selectId;
-    var selectedValue;
-    var cantidadValue;
-
-    $(document).on('change', 'select[id^="select-"], input[id^="cantidad-"]', function() {
-        var idParts = $(this).attr('id').split('-');
-        var index = idParts[1];
-
-        actualizarLista(index);
-    });
-
-    function actualizarLista(index){
-        listaTPCantidad[index] = {
-           TipoPunto: $('#select-' + index).val(),
-           Cantidad: $('#cantidad-' + index).val()
-        };
-
-        var inputListaTPCantidad = Object.entries(listaTPCantidad).map(function ([key,value]){
-            return value.TipoPunto +"-"+value.Cantidad;
-        }).join(';');
-
-       $('#idListaTPCantidad').val(inputListaTPCantidad);
-
-       console.log($('#idListaTPCantidad').val());
+<style>
+    .sp-replacer {
+        border: none; 
+        background: unset;
     }
 
-    $(document).on('click', '.delete-patron', function () {
-        const idPatron = $(this).data('id');
-        const token = $('input[name="__RequestVerificationToken"]').val();
+    .sp-dd{
+        display:none;
+    }
 
-        $.ajax({
-            url: '/Patron/BorrarPatron/EliminarPatron',
-            type: "POST",
-            headers: {
-                "RequestVerificationToken": token
-            },
-            contentType: "application/json",
-            data: JSON.stringify({ idPatron: idPatron }),
-            success: function (response) {
-                if(response){
-                    alert(response.message);
-                    $(`#patron-${idPatron}`).remove();
-                }else{     
-                    alert(response.message);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error details:", xhr.responseText);
-                alert("Ocurrió un error al intentar eliminar el patrón.");
-            }
-        });
+    .sp-preview{
+        width:30px;
+        height:30px;
+        margin-left: 1rem;
+        border-radius: 50%;
+    }
+
+    .sp-preview-inner{
+        border-radius: 50%;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.1/spectrum.min.js"></script>
+<script>
+    var contPartes = 1;
+
+    $(document).on('click', '[id^="btn-plus-"]', function(){
+        contPartes++;
+        var nuevoPartePatron = $('.box-patron').first().clone();
+
+        nuevoPartePatron.find("input").val("");
+
+        nuevoPartePatron.find("#parte-1")
+            .attr("id", "parte-" + contPartes)
+            .val("Parte");
+
+        nuevoPartePatron.find("#btn-plus-1")
+            .attr("id", "btn-plus-" + contPartes);
+
+        nuevoPartePatron.find("#vueltas-nro")
+            .attr("class", "vuelta-nro-" + contPartes+" position-relative my-3");
+
+        nuevoPartePatron.find("#TpCantidad-1")
+            .attr("id", "TpCantidad-" + contPartes);
+
+        nuevoPartePatron.find("#puntos-cantidad-1")
+            .attr("id", "puntos-cantidad-" + contPartes)
+            .empty();
+
+        $('#new-boxes-patron').append(nuevoPartePatron);
+    });
+
+    $('.btn-vuelta-agregar').on('click',function(){
+        var boxPatron = $(this).closest('.box-patron');
+
+        var parteValue = boxPatron.find('[id^="parte-"]').val();
+        var vueltaValue = boxPatron.find('[id^="vuelta-"]').text().replace('V', '').replace(':', '');
+        var tipoPuntoValue = boxPatron.find('[id^="TpCantidad"]').val();
+        var colorValue = boxPatron.find('[id^="color-"]').val();
+        $('#formulario-patron input[name="Parte"]').val(parteValue);
+        $('#formulario-patron input[name="Vuelta"]').val(vueltaValue);
+        $('#formulario-patron input[name="TipoPunto"]').val(tipoPuntoValue);
+        $('#formulario-patron input[name="Color"]').val(colorValue);
+        $('#formulario-patron').submit();
+
+    });
+
+    $(document).on('click', '.btn-vuelta-agregar', function() {
+        var boxPatron = $(this).closest('.box-patron');
+        var vueltaLabel = boxPatron.find('[id^="vuelta-"]');
+        var currentVuelta = parseInt(vueltaLabel.text().replace('V', '').replace(':', ''));
+        vueltaLabel.text('V' + (currentVuelta + 1) + ':');
+    });
+    
+    $("#color-"+contPartes).spectrum({
+        color: "#000000",
+        preferredFormat: "hex",
+        showInput: true,
+        showPalette: true,
+        palette: [ ]
     });
 </script>

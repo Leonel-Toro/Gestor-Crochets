@@ -3,6 +3,7 @@ using System;
 using Gestor.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Gestor.Migrations
 {
     [DbContext(typeof(GestorContext))]
-    partial class GestorContextModelSnapshot : ModelSnapshot
+    [Migration("20250329202323_patroncolor")]
+    partial class patroncolor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,6 +139,10 @@ namespace Gestor.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("color")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("eliminado")
                         .HasColumnType("boolean");
 
@@ -150,6 +157,13 @@ namespace Gestor.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("productoId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("punto")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("vuelta")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -205,32 +219,14 @@ namespace Gestor.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<string>("color")
-                        .IsRequired()
+                    b.Property<string>("descripcion")
                         .HasColumnType("text");
-
-                    b.Property<bool>("eliminado")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("fechaCreacion")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("fechaModificacion")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("idPatronId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("nombre")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("vuelta")
-                        .HasColumnType("integer");
-
                     b.HasKey("id");
-
-                    b.HasIndex("idPatronId");
 
                     b.ToTable("Tipo_punto");
                 });
@@ -272,17 +268,6 @@ namespace Gestor.Migrations
                         .IsRequired();
 
                     b.Navigation("producto");
-                });
-
-            modelBuilder.Entity("Gestor.Modelos.Tipo_punto", b =>
-                {
-                    b.HasOne("Gestor.Modelos.Patron", "idPatron")
-                        .WithMany()
-                        .HasForeignKey("idPatronId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("idPatron");
                 });
 #pragma warning restore 612, 618
         }
