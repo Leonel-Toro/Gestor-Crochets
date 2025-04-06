@@ -11,8 +11,7 @@ using PatronModel = Gestor.Modelos.Patron;
 using TipoPunto = Gestor.Modelos.Tipo_punto;
 
 namespace Gestor.Pages.Patron
-{
-    public class NuevoPatronModel : PageModel
+{    public class NuevoPatronModel : PageModel
     {
         private readonly Gestor.Data.GestorContext _context;
 
@@ -70,12 +69,12 @@ namespace Gestor.Pages.Patron
             if (Parte.IsNullOrEmpty() || Parte.Equals("Parte")) 
             {
                 Console.WriteLine("ERROR: PARTE NO DEBE ESTAR VACIO.");
-                return Page();
+                return RedirectToPage("./NuevoPatron", new { idProducto = idProducto });
             }
             if (TipoPunto.IsNullOrEmpty())
             {
                 Console.WriteLine("ERROR: TIPO PUNTO NO DEBE ESTAR VACIO.");
-                return Page();
+                return RedirectToPage("./NuevoPatron", new { idProducto = idProducto });
             }
 
             try

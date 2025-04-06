@@ -403,7 +403,8 @@ main .card-title .main-logo .logo-img {
 }
 
 .punto-cantidad{
-    width:80%;
+    width:70%;
+    padding: 0 1rem;
 }
 
 
@@ -413,7 +414,13 @@ main .card-title .main-logo .logo-img {
 
 .patron-img-producto {
     position: relative;
-    right: 250px
+    right: 50px;
+    top: -90px;
+    border: 10px solid white;
+}
+
+.patron-img-producto img{
+    border-radius:10px;
 }
 
 .patron-img-producto .img-patron-detalle {
