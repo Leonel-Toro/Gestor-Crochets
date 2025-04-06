@@ -26,14 +26,6 @@
         </div>
     </div>
     <div id="new-boxes-patron">
-
-        <div class="input-group colorpicker-component">
-            <input type="text" value="#00AABB" class="form-control" />
-            <div class="input-group-append">
-                <span class="input-group-text"><i></i></span>
-            </div>
-        </div>
-
         @if (patronesAgrupados != null && patronesAgrupados.Any())
         {
             @foreach (var grupo in patronesAgrupados)
@@ -77,10 +69,9 @@
                         </div>
                         <div class="input-group colorpicker-component" id="color-group-@(partesTotales)-@(vueltasTotalesPorParte+1)">
                             <input type="text"
-                                   class="color-@(partesTotales)-@(vueltasTotalesPorParte+1)"
+                                   class="color d-none"
                                    id="color-@(partesTotales)-@(vueltasTotalesPorParte+1)"
-                                   value="@(ultimoColor ?? "")"
-                                   hidden />
+                                   value="@(ultimoColor ?? "")"/>
                             <span class="input-group-text colorpicker-input-addon p-1">
                                 <i style="width: 30px; height: 30px;"></i>
                             </span>
@@ -143,7 +134,15 @@
         </div>
     </div>
 </div>
-
+<style>
+    .input-group{
+        width:10%;
+    }
+    .input-group-text{
+        background-color: transparent;
+        border: unset;
+    }
+</style>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
@@ -186,8 +185,8 @@
         var parteValue = boxPatron.find('[id^="parte-"]').val();
         var vueltaValue = boxPatron.find('[id^="vuelta-"]').text().replace('V', '').replace(':', '');
         var tipoPuntoValue = boxPatron.find('[id^="TpCantidad-"]').val();
-        var colorValue = boxPatron.find('[id^="color-"]').val();
-
+        var colorValue = boxPatron.find('.color').val();
+        console.log(colorValue);
         var vueltaLabel = boxPatron.find('[id^="vuelta-"]');
         var currentVuelta = parseInt(vueltaLabel.text().replace('V', '').replace(':', ''));
         vueltaLabel.text('V' + (currentVuelta + 1) + ':');
