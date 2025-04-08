@@ -55,5 +55,6 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred while migrating the database.");
     }
 }
+Console.WriteLine("Entorno actual: " + builder.Environment.EnvironmentName);
 
 app.Run();
