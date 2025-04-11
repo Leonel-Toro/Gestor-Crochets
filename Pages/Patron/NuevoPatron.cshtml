@@ -10,7 +10,7 @@
     var context = Model.Context;
     var vueltasTotalesPorParte =0;
     var partesTotales = 1;
-    var ultimoColor = "";
+    var ultimoColor = "#000000";
     var patronesAgrupados = patrones.GroupBy(p => p.parte);
 }
 
@@ -71,7 +71,7 @@
                             <input type="text"
                                    class="color d-none"
                                    id="color-@(partesTotales)-@(vueltasTotalesPorParte+1)"
-                                   value="@(ultimoColor ?? "")"/>
+                                   value="@(ultimoColor ?? "#000000")" />
                             <span class="input-group-text colorpicker-input-addon p-1">
                                 <i style="width: 30px; height: 30px;"></i>
                             </span>
@@ -106,7 +106,7 @@
                         <input type="text"
                                class="color d-none"
                                id="color-1-1"
-                               value="" />
+                               value="#000000" />
                         <span class="input-group-text colorpicker-input-addon p-1">
                             <i style="width: 30px; height: 30px;"></i>
                         </span>
